@@ -1,194 +1,120 @@
+// /src/index.js
 import "./styles.css";
 
-console.log("hello");
+import { initializeData, allTodos, allProjects, allNotes } from './data/store.js';
+import {closeDetailsModal,  closeEditModal, makeToDoUI} from './ui/todo-UI.js';
+import {showHome} from './ui/home.js';
+import {showToday} from './ui/today.js';
+import { showWeek } from "./ui/week.js";
+import {showProject} from './ui/project.js';
+import {showNote} from './ui/showNote.js';
+import showAddNote from "./ui/add/note.js";
+import showAddToDo from "./ui/add/todo.js";
+import showAddProject from "./ui/add/project.js";
+import showAddProjectTodo from "./ui/add/project-todo.js";
 
-let notes = [];
-let allTodos = [];
+const moment = require("moment");
 
-class Note {
-    constructor(title, description) {
-        this._title = title;
-        this._description = description;
-    }
+const low = "low";
+const medium = "medium";
+const high = "high";
 
-    set title(newTitle) {
-        console.log("setting title");
-        this._title = newTitle;
-    }
+let homeButton = document.getElementById("home-button");
+let todayButton = document.getElementById("today-button");
+let weekButton = document.getElementById("week-button");
+let noteButton = document.getElementById("note-button");
 
-    get title() {
-        return this._title;
-    }
+const mainWindow = document.getElementById("main-content");
 
-    set description(newDescription) {
-        console.log("setting description");
-        this._description = newDescription;
-    }
+const closeDetailButton = document.getElementById("closeModal");
+const closeEditButton = document.getElementById("closeModal-edit");
 
-    get description() {
-        return this._description;
-    }
-}
-// note testing
-// const title1 = "shopping list 1"; 
-// const description1 = "1 egg";
+const addModal = document.getElementById("modal-add");
+const addButton = document.getElementById("add-button");
 
-// let note1 =  new Note(title1, description1);
-// console.log(note1)
-// console.log(note1.title)
-// console.log(note1.description)
-
-// const title2 = "shopping list 2"; 
-// const description2 = "2 egg";
-
-// note1.title = title2;
-// note1.description = description2;
-
-// console.log(note1)
-// console.log(note1.title)
-// console.log(note1.description)
+const closeAddButton = document.getElementById("closeModal-add");
 
 
-class ToDo extends Note {
-    constructor(title, description, date, priority) {
-        super(title, description);
-        this._date = date;
-        this._priority = priority;
-    }
+const todoAdd = document.getElementById("todo-add");
+const projectAdd = document.getElementById("project-add");
+const projectTodoAdd = document.getElementById("project-todo-add");
+const noteAdd = document.getElementById("note-add");
 
-    set date(newDate) {
-        console.log("setting date");
-        this._date = newDate;
-    }
+// initialize data
+initializeData();
 
-    get date() {
-        return this._date;
-    }
-
-    set priority(newPriority) {
-        console.log("setting prio");
-        this._priority = newPriority;
-    }
-
-    get priority() {
-        return this._priority;
-    }
-}
+// initialize UI
+showHome(allTodos);
+showProject(allProjects, allTodos);
 
 
-class Project {
-    constructor(name) {
-        this.name = name;
-        this.todos = [];
-    }
+closeDetailButton.addEventListener("click", ()=> {
+    closeDetailsModal();
+});
 
-    addTodo(ToDo) {
-        this.todos.push(ToDo);
-    };
+closeEditButton.addEventListener("click", (event)=> {
+    event.preventDefault();
+    closeEditModal();
+});
 
-    removeToDo(ToDo) {
-        this.todos = this.todos.filter(todo => todo !== ToDo);
-    }
-}
+homeButton.addEventListener('click', function () {
+    console.log("homeButton called -> logging allTodos");
+    console.log(allTodos);
 
+    showHome(allTodos);
+})
 
-function showTodayToDo() {
-    //initialize
-    let toDoArray = [];
+todayButton.addEventListener('click', function () {
+    showToday(allTodos);
+})
 
-    // get today's date
-    const today = new Date();
-    const todayYear = today.getFullYear();
-    const todayMonth = today.getMonth();
-    const todayDate = today.getDate();    
+weekButton.addEventListener('click', function () {
+    showWeek(allTodos);
+})
 
-    // compare each's todo date with today's date
-    allTodos.forEach((todo) => {
-        const todoYear = todo.date.getFullYear();
-        const todoMonth = todo.date.getMonth();
-        const todoDate = todo.date.getDate();
-
-        // if match add to a list 
-        if (todoYear == todayYear && todoMonth == todayMonth && todoDate == todayDate) {
-            toDoArray.push(todo);
-        }
-    });
-    // return list
-    return toDoArray;
-}
-//testing showTodayToDo
-// const title = "shopping list 1"; 
-// const description = "1 egg";
-// const date = new Date("2024-09-30");
-// const priority = "low"
-
-// const title2 = "shopping list 2"; 
-// const date2 = new Date("2024-10-30");
+noteButton.addEventListener('click', function() {
+    showNote(allNotes);
+});
 
 
-// let todo1 =  new ToDo(title, description, date, priority);
-// let todo2 =  new ToDo(title2, description, date2, priority);
-// console.log(todo1);
-// console.log(todo2);
+// add stuff
+closeAddButton.addEventListener('click', (event)=> {
+    event.preventDefault();
+    addModal.classList.remove("open");
+    mainWindow.classList.remove("blur");
+});
 
-// allTodos.push(todo1);
-// allTodos.push(todo2);
+addButton.addEventListener('click', function() {
+    showAddModal();
+    showAddToDo(allTodos);
+});
 
-// let todayTodos = showTodayToDo();
-// console.log(todayTodos);
-
-
-function showThisWeekToDo() {
-    //initialize
-    let toDoArray = [];
-    const miliSecsInWeek = 6.048e+8;
-
-    // get today's date
-    let today = new Date();
-    const todayYear = today.getFullYear();
-    const todayMonth = today.getMonth();
-    const todayDate = today.getDate();      
-    today = new Date(todayYear, todayMonth, todayDate);
-    
-    // compare each's todo date with today's date
-    allTodos.forEach((todo) => {
-        console.log(todo);
-        const timeDifferenceInMs = todo.date - today;
-
-        // if match add to a list 
-        if (timeDifferenceInMs <=  miliSecsInWeek && timeDifferenceInMs > 0) {
-            console.log(timeDifferenceInMs);
-            toDoArray.push(todo);
-        }
-    });
-    // return list
-    return toDoArray;
+function showAddModal() {
+    addModal.classList.add("open");
+    mainWindow.classList.add("blur");
 }
 
-//testing showThisWeekToDo
-// const title = "shopping list 1"; 
-// const description = "1 egg";
-// const date = new Date("2024-09-30");
-// const priority = "low"
+function closeAddModal() {
+    addModal.classList.remove("open");
+    mainWindow.classList.remove("blur");
+}
 
-// const title2 = "shopping list 2"; 
-// const date2 = new Date("2024-10-06");
+todoAdd.addEventListener('click', ()=> {
+    console.log("todo add called");
+    showAddToDo(allTodos);
+});
 
-// const title3 = "shopping list 3"; 
-// const date3 = new Date("2024-10-10");
+projectAdd.addEventListener('click', ()=> {
+    console.log("project add called");
+    showAddProject(allProjects, allTodos);
+})
 
-// const title4 = "shopping list 4"; 
-// const date4 = new Date("2024-09-20");
+projectTodoAdd.addEventListener('click', ()=> {
+    console.log("project todo add called");
+    showAddProjectTodo(allProjects, allTodos); 
+})
 
-// let todo1 =  new ToDo(title, description, date, priority);
-// let todo2 =  new ToDo(title2, description, date2, priority);
-// let todo3 =  new ToDo(title3, description, date3, priority);
-// let todo4 =  new ToDo(title4, description, date4, priority);
-
-// allTodos.push(todo1);
-// allTodos.push(todo2);
-// allTodos.push(todo3);
-// allTodos.push(todo4);
-
-// let weekTodos = showThisWeekToDo();
-// console.log(weekTodos);
+noteAdd.addEventListener('click', ()=> {
+    console.log("note add called");
+    showAddNote(allNotes);
+})

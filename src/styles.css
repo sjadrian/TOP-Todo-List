@@ -1,3 +1,669 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
 body {
     background-color: greenyellow;
-  }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+#first-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.modal {
+    background-color: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: all 0.3s ease-in-out;
+    z-index: -1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.open {
+    opacity: 1;
+    z-index: 999;
+}
+
+.modal-inner {
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    padding: 15px 25px;
+    text-align: center;
+    width: 380px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.modal-inner h2 {
+    margin: 0;
+}
+
+.modal-inner div {
+    /* padding: 2px; */
+    /* margin: 10px 0; */
+    padding: 8px 0px;
+}
+
+.blur {
+    filter: blur(5px); /* Adjust the blur value as needed */
+}
+
+/* edit */
+
+.modal-edit {
+    background-color: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: all 0.3s ease-in-out;
+    z-index: -1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-edit.open {
+    opacity: 1;
+    z-index: 999;
+}
+
+.modal-inner-edit {
+    background-color: beige;
+    border-radius: 5px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    padding: 15px 25px;
+    text-align: center;
+    width: 23.75rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#edit-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+#first-row-edit {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+} 
+
+#title-edit {
+    font-size: 1.5rem;
+    flex: 1;
+    border: none;
+}
+
+#description-edit {
+    border: none;
+    margin-top: 10px;
+}
+
+
+#last-row-edit {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+} 
+
+/* add button */
+.modal-add {
+    background-color: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: all 0.1s ease-in-out;
+    z-index: -1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-add.open {
+    opacity: 1;
+    z-index: 999;
+}
+
+.modal-inner-add {
+    background-color: beige;
+    border-radius: 5px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    /* padding: 15px 25px; */
+    text-align: center;
+    width: 48rem;
+    height: 24rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* #add-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+} */
+
+#header-add {
+    display: flex;
+    background-color: aquamarine;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#header-title-add {
+    padding: 10px;
+
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+
+    font-size: 2.5rem;
+}
+
+#closeModal-add {
+    height: 75%;
+    width: 2rem;
+}
+
+#content-add {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+#content-add-left {
+    font-size: 1.4rem;
+    padding: 10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    background-color: aquamarine;
+
+    flex-grow: 2;
+}
+
+#todo-add, #project-add, #project-todo-add, #note-add {
+    margin-top: 10px;
+}
+
+
+#content-add-right {
+    flex-grow: 8;
+    padding: 10px;
+}
+
+/* todo */
+
+#todo-container-add {
+    height: 100%;
+}
+
+#todo-add-form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#title-todo-add{
+    font-size: 1.2rem;
+    padding-top: 10px;
+    border: none;
+    outline: none;
+}
+
+#description-todo-add {
+    flex: 1;
+    padding-top: 10px;
+
+    font-size: 1rem;
+    border: none;
+    outline: none;
+}
+
+#title-todo-add:focus, #description-todo-add:focus {
+    border: none;
+    outline: none;
+}
+
+#duedate-todo-add {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 10px;
+}
+
+#date-todo-add{
+    margin-left: 10px;
+}
+
+#priority-todo-add {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+
+    margin-top: 10px;
+}
+
+#last-row-todo-add{
+    display: flex;
+}
+
+/* end of todo-add */
+
+/* project add */
+
+#project-container-add {
+    height: 100%;
+}
+
+#project-add-form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#label-project-todo-add {
+
+}
+
+#project-add-blank{
+    flex: 1;
+}
+
+#choose-project-todo-add {
+    display: flex;
+    gap: 10px;
+}
+
+
+#title-project-add{
+    font-size: 1.2rem;
+    padding: 10px;
+    border: none;
+    outline: none;
+}
+
+#confirm-project-add {
+    width: 20%;
+}
+
+
+/* end of project add */
+
+/* project to-do  */
+#project-todo-container-add {
+    height: 100%;
+}
+
+#project-todo-add-form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#title-project-todo-add{
+    font-size: 1.2rem;
+    padding-top: 10px;
+    border: none;
+    outline: none;
+}
+
+#description-project-todo-add {
+    flex: 1;
+    padding-top: 10px;
+
+    font-size: 1rem;
+    border: none;
+    outline: none;
+}
+
+#title-project-todo-add:focus, #description-project-todo-add:focus {
+    border: none;
+    outline: none;
+}
+
+#duedate-project-todo-add {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 10px;
+}
+
+#date-project-todo-add{
+    margin-left: 10px;
+}
+
+#priority-project-todo-add {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+
+    margin-top: 10px;
+}
+
+#last-row-project-todo-add{
+    display: flex;
+}
+
+
+/* project to-do end */
+
+
+/* note */
+
+#note-container-add {
+    height: 100%;
+}
+
+#note-add-form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#description-note-add{
+    flex: 1;
+    padding: 10px;
+    border: none;
+    outline: none;
+}
+
+
+#title-note-add{
+    font-size: 1.2rem;
+    padding: 10px;
+    border: none;
+    outline: none;
+}
+
+#confirm-note-add {
+    width: 20%;
+}
+
+
+/* note end */
+
+#main-content {
+    background-color: aqua;
+    width: 80vw; 
+    height: 80vh; 
+    max-width: 1200px;
+    min-width: 400px;  
+}
+
+header {
+    background-color: pink;
+    color: white;
+    font-size: clamp(30px, 4vw, 100px);
+    padding: 5px 10px;
+    /* width: 60vw; */
+    height: 10%;
+    min-width: 400px; 
+
+    display: flex;
+    align-items: center;
+}
+
+#content {
+    display: flex;
+    /* width: 60vw;
+    height: 40vh; */
+    height: 90%;
+    min-width: 400px; 
+}
+
+#content-left {
+    background-color: aliceblue;
+    padding: 48px;
+    width: 30%;
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+.left-text {
+    font-size: clamp(20px, 1.5vw, 40px);
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hvr:hover {
+    color: red;
+    cursor: pointer;
+}
+
+#home-count, #today-count, #week-count, #note-count {
+    height: 1em;
+    width: 1em;
+    background-color: pink;
+    border: 6px solid pink;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.project-count {
+    height: 1em;
+    width: 1em;
+    background-color: pink;
+    border: 6px solid pink;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#project-container {
+    overflow: auto;
+    height: 10rem;
+    width: 100%;
+}
+
+.projects {
+    font-size: clamp(20px, 1.5vw, 40px);
+    padding: 8px;
+    
+}
+
+.project {
+    margin-left: 20px;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#empty-title {
+    font-size: 2rem;
+    padding: 10px;
+    text-align: center;
+}
+
+#empty-main {
+    font-size: 1.5rem;
+    padding: 20px;
+    text-align: center;
+}
+
+#empty-delete {
+    display: block;
+    margin: auto;
+    padding: 10px;
+}
+
+
+
+#add-button {
+    margin-top: 10px;
+    font-size: 40px;
+    height: 1em;
+    width: 1em;
+    border-radius: 50%;
+    background-color: pink;
+    border: 6px solid pink;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#add-button:hover {
+    cursor: pointer;
+}
+
+#content-right {
+    background-color: rgb(135, 135, 163);
+    padding: 48px;
+    width: 70%;
+    overflow: auto;
+
+}
+
+.todo {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    border-left: 4px solid red;
+    background-color: beige;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+
+#todo-title {
+    flex-grow: 1;
+    font-size: 2vw;
+}
+
+.todo-cross {
+    text-decoration: line-through;
+}
+
+.todo-background {
+    opacity: 0.7;
+}
+
+#detail-button {
+
+}
+
+#todo-date {
+    width: 12%;
+    text-align: center;
+    font-size: small;
+}
+
+#todo-edit, #todo-delete {
+    width: 5%;
+}
+
+#todo-edit:hover, #todo-delete:hover {
+    color: red;
+}
+
+/* notes */
+
+#note-container {
+    /* Masonry grid */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px; /* Space between the cards */
+    overflow: auto;
+}
+
+.note {
+    background-color: aliceblue;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    width: 200px;
+
+    display: grid;
+    grid-template-columns: 1fr 40px;
+    grid-template-rows: 40px 1fr;
+}
+
+
+#note-title {
+    font-weight: bold;
+    font-size: 1.2em;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    white-space: nowrap;
+}
+
+#delete-note{
+    margin-top: 10px;
+    margin-right: 10px;
+    font-size: small;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#note-title:focus, #note-description:focus {
+    border: none;
+    outline: none;
+}
+
+#note-description {
+    word-wrap: break-word; /* Ensure long words wrap inside the box */
+    grid-column-start: 1;
+    grid-column-end: 3;
+    border: none;
+
+    margin: 10px;
+}
+
+#note-title, #delete-note, #note-description {
+    
+}
+
+
+
