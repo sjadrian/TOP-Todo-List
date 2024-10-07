@@ -1,5 +1,6 @@
 import {showNote} from './showNote.js';
-import { allNotes } from '../data/store.js';        
+import { allNotes } from '../data/store.js';   
+import { updateAllNotes, getAllNotes } from './showNote.js';     
 
 export function makeNoteUI(note, noteContainer) {
 
@@ -34,8 +35,15 @@ export function makeNoteUI(note, noteContainer) {
 
     //functionalities
     deleteButton.addEventListener("click", ()=> {
-        let filteredNotes = allNotes.get().filter(existingNote => note !== existingNote);
-        allNotes.set(filteredNotes);
+
+        console.log('yox');
+        let allNotex = getAllNotes(); 
+        console.log('allNotex', allNotex);
+        
+        let filteredNotes = allNotex.filter(existingNote => existingNote.id !==  note.id);
+        console.log('filtered:',filteredNotes);
+
+        updateAllNotes(filteredNotes);
         showNote();
     });
 
@@ -59,14 +67,14 @@ export function makeNoteUI(note, noteContainer) {
             note.title = newTitle;
     
             //update notes
-            const notes = allNotes.get();
-            const index = notes.findIndex(n => n === note);
-            
+            const notes = getAllNotes();
+            const index = notes.findIndex(n => n.id == note.id);
+
             if (index !== -1) {
                 notes[index] = note;
             }
 
-            allNotes.set(notes);
+            updateAllNotes(notes);
         }
     });
 
@@ -77,15 +85,16 @@ export function makeNoteUI(note, noteContainer) {
 
         note.description = newDescription;
 
-        const notes = allNotes.get();
-        const index = notes.findIndex(n => n === note);
+        //update notes
+        const notes = getAllNotes();
+        const index = notes.findIndex(n => n.id == note.id);
 
         if (index !== -1) {
             notes[index] = note;
-            allNotes.set(notes);
         }
-    });
 
+        updateAllNotes(notes);
+    }); 
 
     //functions
     // Helper function to set the caret to the end of the contentEditable div
