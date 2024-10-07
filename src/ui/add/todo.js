@@ -1,17 +1,30 @@
 import ToDo from "../../classes/ToDo";
 import { showHome } from "../home";
+import { allTodos } from "../../data/store";
+// import {changeActiveTabAdd} from '../changeActiveTab.js';
 
 const addContent = document.getElementById("content-add-right");
 const addModal = document.getElementById("modal-add");
 const mainWindow = document.getElementById("main-content");
+
+import {changeActiveTabAdd} from '../changeActiveTab.js';
+
+const todoAdd = document.getElementById("todo-add");
+const projectAdd = document.getElementById("project-add");
+const projectTodoAdd = document.getElementById("project-todo-add");
+const noteAdd = document.getElementById("note-add");
 
 function closeAddModal() {
     addModal.classList.remove("open");
     mainWindow.classList.remove("blur");
 }
 
-export default function showAddToDo(todos) {
+
+
+export default function showAddToDo() {
     addContent.innerHTML = "";
+
+    changeActiveTabAdd(todoAdd);
 
     let divContainer = document.createElement("div");
     divContainer.id = "todo-container-add";
@@ -149,10 +162,10 @@ export default function showAddToDo(todos) {
         const newTodo = new ToDo(title, description, new Date(dueDate), priority);
 
         //add todo to alltodo
-        todos.unshift(newTodo);
+        allTodos.add(newTodo);
 
         // show new todo
-        showHome(todos);
+        showHome();
 
         //close dialog
         closeAddModal();

@@ -1,19 +1,27 @@
 import Project from "../../classes/Project";
 import { showHome } from "../home";
 import { showProject, displayProjectUI } from "../project";
+import { allTodos, allProjects } from "../../data/store";
+import {changeActiveTabAdd} from '../changeActiveTab.js';
 
 const addContent = document.getElementById("content-add-right");
 const addModal = document.getElementById("modal-add");
 const mainWindow = document.getElementById("main-content");
 
+const todoAdd = document.getElementById("todo-add");
+const projectAdd = document.getElementById("project-add");
+const projectTodoAdd = document.getElementById("project-todo-add");
+const noteAdd = document.getElementById("note-add");
 
 function closeAddModal() {
     addModal.classList.remove("open");
     mainWindow.classList.remove("blur");
 }
 
-export default function showAddProject(projects, todos) {
+export default function showAddProject() {
     addContent.innerHTML = "";
+
+    changeActiveTabAdd(projectAdd);
 
     // Create the main container div (project-container-add)
     let projectContainerDiv = document.createElement("div");
@@ -64,11 +72,11 @@ export default function showAddProject(projects, todos) {
         // newProject.addTodo(todo1);
 
         //add todo to alltodo
-        projects.push(newProject);
+        allProjects.add(newProject);
 
         // show new todo
-        showProject(projects, todos);
-        displayProjectUI(newProject, projects, todos);
+        showProject();
+        displayProjectUI(newProject);
 
         //close dialog
         closeAddModal();

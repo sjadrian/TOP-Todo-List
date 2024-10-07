@@ -1,18 +1,27 @@
 import ToDo from "../../classes/ToDo";
-
 import { showProject, displayProjectUI } from "../project";
+import { allProjects, allTodos } from "../../data/store";
 
 const addContent = document.getElementById("content-add-right");
 const addModal = document.getElementById("modal-add");
 const mainWindow = document.getElementById("main-content");
+
+import {changeActiveTabAdd} from '../changeActiveTab.js';
+
+const todoAdd = document.getElementById("todo-add");
+const projectAdd = document.getElementById("project-add");
+const projectTodoAdd = document.getElementById("project-todo-add");
+const noteAdd = document.getElementById("note-add");
 
 function closeAddModal() {
     addModal.classList.remove("open");
     mainWindow.classList.remove("blur");
 }
 
-export default function showAddProjectTodo(projects, todos) {
+export default function showAddProjectTodo() {
     addContent.innerHTML = "";
+
+    changeActiveTabAdd(projectTodoAdd);
 
     // Create the main container div (project-todo-container-add)
     let projectTodoContainerDiv = document.createElement("div");
@@ -28,7 +37,7 @@ export default function showAddProjectTodo(projects, todos) {
     chooseProjectDiv.id = "choose-project-todo-add";
 
 
-    if (projects.length >= 1) {
+    if (allProjects.get().length >= 1) {
 
         // Create the label for the select dropdown
         let labelElement = document.createElement("label");
@@ -52,7 +61,7 @@ export default function showAddProjectTodo(projects, todos) {
         
         selectElement.appendChild(defaultOption);
 
-        projects.forEach((project)=> {
+        allProjects.get().forEach((project)=> {
 
             console.log(project.name);
 
@@ -70,7 +79,7 @@ export default function showAddProjectTodo(projects, todos) {
         // Create the input element for the to-do title
         let titleInput = document.createElement("input");
         titleInput.type = "text";
-        titleInput.id = "project-todo-add";
+        titleInput.id = "title-project-todo-add";
         titleInput.name = "title";
         titleInput.placeholder = "Title:";
         titleInput.required = true;
@@ -204,6 +213,8 @@ export default function showAddProjectTodo(projects, todos) {
     
             //add todo to the project
 
+            let projects = allProjects.get();
+
             //find project
             let count = 0;
             for (let projectInProjects of projects) {
@@ -216,9 +227,10 @@ export default function showAddProjectTodo(projects, todos) {
             }
 
             projects[count].addTodo(newTodo);
+            allProjects.set(projects);
 
-            showProject(projects, todos);
-            displayProjectUI(projects[count], projects, todos);
+            showProject();
+            displayProjectUI(projects[count]);
             
             //close dialog
             closeAddModal();

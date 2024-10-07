@@ -1,7 +1,7 @@
+import { allProjects } from "../data/store";
 
-
-export function updateTotalProjectCountUI(projects) {
-    projects.forEach((project)=> {
+export function updateTotalProjectCountUI() {
+    allProjects.get().forEach((project)=> {
         const projectCount = document.getElementById(project.name);
 
         let count = 0;

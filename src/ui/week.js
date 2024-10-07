@@ -3,12 +3,18 @@ import {makeToDoUI} from '../ui/todo-UI';
 
 let mainContent = document.getElementById("content-right");
 
-export function showWeek(todos) {
+let homeButton = document.getElementById("home-button");
+let todayButton = document.getElementById("today-button");
+let weekButton = document.getElementById("week-button");
+
+import {changeActiveTab} from './changeActiveTab';
+
+export function showWeek() {
     //clear home
     mainContent.innerHTML = '';
 
-    todos = sortToDo(todos);
+    changeActiveTab(weekButton);
 
-    let weekToDos = showThisWeekToDo(todos);
-    weekToDos.forEach((todo)=> makeToDoUI(todo, todos));
+    let weekToDos = showThisWeekToDo();
+    weekToDos.forEach((todo)=> makeToDoUI(todo));
 }

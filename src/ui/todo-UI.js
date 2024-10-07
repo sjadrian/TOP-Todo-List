@@ -1,5 +1,6 @@
 // src/ui/todo-UI.js
 
+import { initializeData, allTodos, allProjects, allNotes } from '../data/store.js';
 import {convertTime} from '../utils/dateUtils.js';
 import {showHome} from './home.js';
 import {updateToDosCountUI} from '../utils/countToDoUtils'
@@ -28,7 +29,7 @@ export function closeEditModal() {
     mainWindow.classList.remove("blur");
 }
 
-export function makeToDoUI(todo, todos) {
+export function makeToDoUI(todo) {
 
     // create div & give class todo
     let div = document.createElement("div");
@@ -125,7 +126,7 @@ export function makeToDoUI(todo, todos) {
             updateToDoInArray(todo, updatedTodo);
 
             //update UI
-            showHome(todos); 
+            showHome(); 
             closeEditModal();
         };
         // Remove any previous listener before adding the new one
@@ -137,21 +138,22 @@ export function makeToDoUI(todo, todos) {
     deleteIcon.addEventListener('click', ()=> {
         // remove todo from array
         console.log("delete called -> logging allTodos");
-        console.log(todos);
+        console.log(allTodos);
 
-        todos = todos.filter(allTodo => todo !== allTodo);
+        let filteredToDos = allTodos.get().filter(todoFromallTodos => todo !== todoFromallTodos);
+        allTodos.set(filteredToDos);
         // update UI
 
         console.log("delete finish -> logging allTodos");
-        console.log(todos);
+        console.log(allTodos);
 
-        showHome(todos); 
+        showHome(); 
     });
 
     //functions
     function findIndexToDo(todoNeeded) {
         let count = 0;
-        for (let todo of todos) {
+        for (let todo of allTodos.get()) {
             if (todo === todoNeeded) {
                 console.log(count);
                 return count; // Return the index as soon as a match is found
@@ -173,7 +175,7 @@ export function makeToDoUI(todo, todos) {
             divTitle.classList.add("todo-cross");
             div.classList.add("todo-background");
     
-            updateToDosCountUI(todos);
+            updateToDosCountUI();
         } else {
             console.log("Checkbox is unchecked");
             // Add actions when checkbox is unchecked
@@ -183,7 +185,7 @@ export function makeToDoUI(todo, todos) {
             divTitle.classList.remove("todo-cross");
             div.classList.remove("todo-background");
     
-            updateToDosCountUI(todos);
+            updateToDosCountUI();
         }
     }
 
@@ -253,12 +255,17 @@ export function makeToDoUI(todo, todos) {
     function updateToDoInArray(originalTodo, updatedTodo) {
         const index = findIndexToDo(originalTodo);
 
+        const todos = allTodos.get();
+
         if (index > -1) {
-            // Update only the fields that were modified
+             // Update the specific todo by index
             todos[index].title = updatedTodo.title;
             todos[index].description = updatedTodo.description;
             todos[index].date = updatedTodo.date;
             todos[index].priority = updatedTodo.priority;
+
+            // Set the updated todos array back into allTodos
+            allTodos.set(todos);
         }
     }
 }

@@ -3,14 +3,20 @@ import {updateTotalProjectCountUI} from '../utils/countToDoInProjectUtils.js';
 import { sortToDo } from '../utils/countToDoUtils.js';
 import { showHome } from './home.js';
 
+import { allProjects, allTodos } from '../data/store.js';
+
+import { allButtons } from '../data/store.js';
+import {changeActiveTab} from './changeActiveTab.js';
+
 let projectContainer = document.getElementById("project-container");
 let mainContent = document.getElementById("content-right");
 
-export function showProject(projects, todos) {
+export function showProject() {
 
     projectContainer.innerHTML = '';
 
-    projects.forEach((project)=> {
+    allProjects.get().forEach((project)=> {
+
         // create div & give class todo
         let div = document.createElement("div");
         div.classList.add("project");
@@ -29,24 +35,29 @@ export function showProject(projects, todos) {
         
         projectContainer.appendChild(div);
 
+        //add buttons
+        allButtons.add(divTitle);
+
         divTitle.addEventListener("click", function() {
-            displayProjectUI(project, projects, todos);
+            displayProjectUI(project);
+            changeActiveTab(divTitle);
+            
         } )
     });
-    updateTotalProjectCountUI(projects);
+    updateTotalProjectCountUI();
 }
 
-export function displayProjectUI(project, projects, todos) {
+export function displayProjectUI(project) {
     //clear home
     mainContent.innerHTML = '';  
 
     if (project.length() >= 1) {
         console.log("yow1");
-        project.todos = sortToDo(project.todos);
+        // project.todos = sortToDo(project.todos);
         
         //show all projects
         let todos = project.todos;
-        todos.forEach((todo)=> makeProjectUI(todo, project, projects, todos));
+        todos.forEach((todo)=> makeProjectUI(todo, project));
     } else {
 
         console.log("yow2");
@@ -72,10 +83,13 @@ export function displayProjectUI(project, projects, todos) {
 
             console.log("delete proj");
 
-            projects = projects.filter(existingProject => project !== existingProject);
+            allButtons.remove(project.title);
 
-            showProject(projects, todos);
-            showHome(todos);
+            let filteredProjects = allProjects.get().filter(existingProject => project !== existingProject);
+            allProjects.set(filteredProjects);
+
+            showProject();
+            showHome();
         })
     }
 }

@@ -2,6 +2,8 @@ import {convertTime} from '../utils/dateUtils.js';
 import {updateTotalProjectCountUI} from '../utils/countToDoInProjectUtils.js';
 import {displayProjectUI} from './project.js';
 
+import { allProjects } from '../data/store.js';
+
 const moment = require("moment");
 
 let homeButton = document.getElementById("home-button");
@@ -33,7 +35,7 @@ function closeEditModal() {
     mainWindow.classList.remove("blur");
 }
 
-export function makeProjectUI(todo, project, projects, todos) {
+export function makeProjectUI(todo, project) {
     // create div & give class todo
     let div = document.createElement("div");
     div.classList.add("todo");
@@ -129,7 +131,7 @@ export function makeProjectUI(todo, project, projects, todos) {
             updateToDoInProjectArray(todo, updatedTodo);
 
             //update UI
-            displayProjectUI(project, projects, todos);
+            displayProjectUI(project);
             closeEditModal();
         };
         // Remove any previous listener before adding the new one
@@ -142,8 +144,8 @@ export function makeProjectUI(todo, project, projects, todos) {
         // remove todo from array
         project.todos = project.todos.filter(existingTodo => todo !== existingTodo);
         // update UI
-        displayProjectUI(project, projects, todos);
-        updateTotalProjectCountUI(projects);
+        displayProjectUI(project);
+        updateTotalProjectCountUI();
     });
 
     //functions
@@ -210,9 +212,9 @@ export function makeProjectUI(todo, project, projects, todos) {
         return { title, description, date, priority };
     };
 
-    function findIndexProject(projectSearched, projects) {
+    function findIndexProject(projectSearched) {
         let count = 0;
-        for (let projectInProjects of projects) {
+        for (let projectInProjects of allProjects.get()) {
             if (projectInProjects === projectSearched) {
                 console.log(count);
                 return count; // Return the index as soon as a match is found
@@ -235,8 +237,11 @@ export function makeProjectUI(todo, project, projects, todos) {
     }
 
     function updateToDoInProjectArray(originalTodo, updatedTodo) {
-        const projectIndex = findIndexProject(project, projects);
+        const projectIndex = findIndexProject(project);
         const todoIndex = findIndexToDoInProject(originalTodo, project.todos);
+
+
+        let projects = allProjects.get();
 
         if (todoIndex > -1 && projectIndex > -1) {
             // Update only the fields that were modified
@@ -244,6 +249,8 @@ export function makeProjectUI(todo, project, projects, todos) {
             projects[projectIndex].todos[todoIndex].description = updatedTodo.description;
             projects[projectIndex].todos[todoIndex].date = updatedTodo.date;
             projects[projectIndex].todos[todoIndex].priority = updatedTodo.priority;
+
+            allProjects.set(projects);
         }
     }
 
@@ -259,7 +266,7 @@ export function makeProjectUI(todo, project, projects, todos) {
             div.classList.add("todo-background");
     
             // updateToDoCountUI();
-            updateTotalProjectCountUI(projects);
+            updateTotalProjectCountUI();
         } else {
             console.log("Checkbox is unchecked");
             // Add actions when checkbox is unchecked
@@ -270,7 +277,7 @@ export function makeProjectUI(todo, project, projects, todos) {
             div.classList.remove("todo-background");
     
             // updateToDoCountUI();
-            updateTotalProjectCountUI(projects);
+            updateTotalProjectCountUI();
         }
     }
 }

@@ -1,9 +1,18 @@
 import Note from "../../classes/Note";
 import {showNote} from '../showNote.js';
 
+import { allNotes } from "../../data/store.js";
+
 const addContent = document.getElementById("content-add-right");
 const addModal = document.getElementById("modal-add");
 const mainWindow = document.getElementById("main-content");
+
+import {changeActiveTabAdd} from '../changeActiveTab.js';
+
+const todoAdd = document.getElementById("todo-add");
+const projectAdd = document.getElementById("project-add");
+const projectTodoAdd = document.getElementById("project-todo-add");
+const noteAdd = document.getElementById("note-add");
 
 
 function closeAddModal() {
@@ -11,8 +20,10 @@ function closeAddModal() {
     mainWindow.classList.remove("blur");
 }
 
-export default function showAddNote(notes) {
+export default function showAddNote() {
     addContent.innerHTML = "";
+
+    changeActiveTabAdd(noteAdd);
 
     // Create the main container div (note-container-add)
     let noteContainerDiv = document.createElement("div");
@@ -70,11 +81,10 @@ export default function showAddNote(notes) {
         let newNote = new Note(title, description);
 
         //add note to allnotes
-
-        notes.unshift(newNote);
+        allNotes.add(newNote);
 
         // show new notes
-        showNote(notes);
+        showNote();
 
         //close dialog
         closeAddModal();

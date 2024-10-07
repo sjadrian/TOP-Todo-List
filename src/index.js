@@ -13,6 +13,8 @@ import showAddToDo from "./ui/add/todo.js";
 import showAddProject from "./ui/add/project.js";
 import showAddProjectTodo from "./ui/add/project-todo.js";
 
+// import changeActiveTab from "./ui/changeActiveTab.js";
+
 const moment = require("moment");
 
 const low = "low";
@@ -44,8 +46,8 @@ const noteAdd = document.getElementById("note-add");
 initializeData();
 
 // initialize UI
-showHome(allTodos);
-showProject(allProjects, allTodos);
+showHome();
+showProject();
 
 
 closeDetailButton.addEventListener("click", ()=> {
@@ -61,19 +63,19 @@ homeButton.addEventListener('click', function () {
     console.log("homeButton called -> logging allTodos");
     console.log(allTodos);
 
-    showHome(allTodos);
+    showHome();
 })
 
 todayButton.addEventListener('click', function () {
-    showToday(allTodos);
+    showToday();
 })
 
 weekButton.addEventListener('click', function () {
-    showWeek(allTodos);
+    showWeek();
 })
 
 noteButton.addEventListener('click', function() {
-    showNote(allNotes);
+    showNote();
 });
 
 
@@ -86,7 +88,7 @@ closeAddButton.addEventListener('click', (event)=> {
 
 addButton.addEventListener('click', function() {
     showAddModal();
-    showAddToDo(allTodos);
+    showAddToDo();
 });
 
 function showAddModal() {
@@ -101,20 +103,20 @@ function closeAddModal() {
 
 todoAdd.addEventListener('click', ()=> {
     console.log("todo add called");
-    showAddToDo(allTodos);
+    showAddToDo();
 });
 
 projectAdd.addEventListener('click', ()=> {
     console.log("project add called");
-    showAddProject(allProjects, allTodos);
+    showAddProject();
 })
 
 projectTodoAdd.addEventListener('click', ()=> {
     console.log("project todo add called");
-    showAddProjectTodo(allProjects, allTodos); 
+    showAddProjectTodo(); 
 })
 
 noteAdd.addEventListener('click', ()=> {
     console.log("note add called");
-    showAddNote(allNotes);
+    showAddNote();
 })

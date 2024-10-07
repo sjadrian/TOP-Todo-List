@@ -1,3 +1,13 @@
+:root {
+    --main-background: #54a494;
+    --main-header:#c38d9e;
+    --left-bar: #eeeeee;
+    --right-bar: #f7f7f7;
+    --active-tab: #541f3a;
+
+
+}
+
 html, body {
     margin: 0;
     padding: 0;
@@ -5,11 +15,20 @@ html, body {
 }
 
 body {
-    background-color: greenyellow;
+    background-color: var(--main-background);
     display: flex;
     align-items: center;
     justify-content: center;
     
+}
+
+.active-tab {
+    color: red;
+}
+
+.hvr:hover {
+    color: red;
+    cursor: pointer;
 }
 
 #first-row {
@@ -134,6 +153,11 @@ body {
 } 
 
 /* add button */
+#todo-add:hover, #project-add:hover, #project-todo-add:hover, #note-add:hover {
+    cursor: pointer;
+    color: red;
+}
+
 .modal-add {
     background-color: rgba(0, 0, 0, 0.3);
     opacity: 0;
@@ -156,7 +180,7 @@ body {
 }
 
 .modal-inner-add {
-    background-color: beige;
+    background-color: var(--right-bar);    
     border-radius: 5px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
     /* padding: 15px 25px; */
@@ -169,16 +193,9 @@ body {
     align-items: flex-start;
 }
 
-/* #add-form {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-} */
-
 #header-add {
     display: flex;
-    background-color: aquamarine;
+    background-color: var(--main-header);
     width: 100%;
 
     display: flex;
@@ -188,7 +205,7 @@ body {
 
 #header-title-add {
     padding: 10px;
-
+    color: var(--right-bar);
     flex: 1;
     display: flex;
     align-items: flex-start;
@@ -197,8 +214,19 @@ body {
 }
 
 #closeModal-add {
-    height: 75%;
-    width: 2rem;
+    /* height: 60%;
+    width: 2rem; */
+    padding: 10px;
+    margin-right: 10px;
+    border: none;
+    background: none;
+    font-size: 1.8rem;
+    color: #eeeeee;
+
+}
+
+#closeModal-add:hover {
+    cursor: pointer;
 }
 
 #content-add {
@@ -215,18 +243,15 @@ body {
     flex-direction: column;
     align-items: flex-start;
 
-    background-color: aquamarine;
-
-    flex-grow: 2;
+    background-color: var(--left-bar);
 }
 
 #todo-add, #project-add, #project-todo-add, #note-add {
     margin-top: 10px;
 }
 
-
 #content-add-right {
-    flex-grow: 8;
+    flex-grow: 1;
     padding: 10px;
 }
 
@@ -244,18 +269,20 @@ body {
 
 #title-todo-add{
     font-size: 1.2rem;
-    padding-top: 10px;
+    margin-top: 10px;
     border: none;
     outline: none;
+    background-color: var(--right-bar);
 }
 
 #description-todo-add {
     flex: 1;
-    padding-top: 10px;
+    margin-top: 10px;
 
     font-size: 1rem;
     border: none;
     outline: none;
+    background-color: var(--right-bar);
 }
 
 #title-todo-add:focus, #description-todo-add:focus {
@@ -315,9 +342,10 @@ body {
 
 #title-project-add{
     font-size: 1.2rem;
-    padding: 10px;
     border: none;
     outline: none;
+    background-color: var(--right-bar);
+    margin-top: 10px;
 }
 
 #confirm-project-add {
@@ -336,13 +364,28 @@ body {
     height: 100%;
     display: flex;
     flex-direction: column;
+    border: none;
+    outline: none;
 }
 
-#title-project-todo-add{
+#choose-project-todo-add {
+    padding-top: 10px;
+}
+
+/* #title-project-todo-add{
     font-size: 1.2rem;
+    padding-top: 10px;
+    background-color: var(--right-bar);
+    border: none;
+    outline: none;
+} */
+
+#title-project-todo-add {
     padding-top: 10px;
     border: none;
     outline: none;
+    font-size: 1.2rem;
+    background-color: var(--right-bar);
 }
 
 #description-project-todo-add {
@@ -352,6 +395,7 @@ body {
     font-size: 1rem;
     border: none;
     outline: none;
+    background-color: var(--right-bar);
 }
 
 #title-project-todo-add:focus, #description-project-todo-add:focus {
@@ -397,20 +441,25 @@ body {
     height: 100%;
 }
 
-#description-note-add{
-    flex: 1;
-    padding: 10px;
-    border: none;
-    outline: none;
-}
-
-
 #title-note-add{
     font-size: 1.2rem;
-    padding: 10px;
     border: none;
     outline: none;
+    background-color: var(--right-bar);
+    margin-top: 10px
 }
+
+
+#description-note-add{
+    flex: 1;
+    border: none;
+    outline: none;
+    background-color: var(--right-bar);
+    margin-top: 10px;
+    font-size: 1rem;
+}
+
+
 
 #confirm-note-add {
     width: 20%;
@@ -424,12 +473,13 @@ body {
     width: 80vw; 
     height: 80vh; 
     max-width: 1200px;
-    min-width: 400px;  
+    min-width: 400px; 
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; 
 }
 
 header {
-    background-color: pink;
-    color: white;
+    background-color: var(--main-header);
+    color: var(--right-bar);
     font-size: clamp(30px, 4vw, 100px);
     padding: 5px 10px;
     /* width: 60vw; */
@@ -449,7 +499,7 @@ header {
 }
 
 #content-left {
-    background-color: aliceblue;
+    background-color: var(--left-bar);
     padding: 48px;
     width: 30%;
 
@@ -466,10 +516,7 @@ header {
     align-items: center;
 }
 
-.hvr:hover {
-    color: red;
-    cursor: pointer;
-}
+
 
 #home-count, #today-count, #week-count, #note-count {
     height: 1em;
@@ -547,6 +594,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 #add-button:hover {
@@ -554,7 +602,7 @@ header {
 }
 
 #content-right {
-    background-color: rgb(135, 135, 163);
+    background-color: var(--right-bar);
     padding: 48px;
     width: 70%;
     overflow: auto;
@@ -566,9 +614,14 @@ header {
     display: flex;
     align-items: center;
     border-left: 4px solid red;
-    background-color: beige;
+    background-color: var(--left-bar);
     gap: 10px;
     margin-bottom: 10px;
+}
+
+.todo:hover{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    cursor: default;
 }
 
 
@@ -582,11 +635,14 @@ header {
 }
 
 .todo-background {
-    opacity: 0.7;
+    opacity: 0.65;
+    /* background-color: grey; */
 }
 
 #detail-button {
-
+    border: 1px solid green;
+    border-radius: 4px;
+    color: green;
 }
 
 #todo-date {
@@ -601,6 +657,11 @@ header {
 
 #todo-edit:hover, #todo-delete:hover {
     color: red;
+    cursor: pointer;
+}
+
+#todo-date, #todo-edit, #todo-delete {
+    color: maroon;
 }
 
 /* notes */
@@ -614,7 +675,7 @@ header {
 }
 
 .note {
-    background-color: aliceblue;
+    background-color: var(--left-bar);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
@@ -623,6 +684,10 @@ header {
     display: grid;
     grid-template-columns: 1fr 40px;
     grid-template-rows: 40px 1fr;
+}
+
+.note:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 

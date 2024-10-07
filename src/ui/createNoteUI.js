@@ -1,22 +1,7 @@
 import {showNote} from './showNote.js';
+import { allNotes } from '../data/store.js';        
 
-// let noteContainer = document.getElementById("note-container");
-let mainContent = document.getElementById("content-right");
-
-
-/* <div id="content-right">
-    <div id="note-container">
-        <div class="note">
-            <div id="note-title">
-                Title
-            </div>
-            <div id="note-description">
-                Notes desction
-            </div>   */
-
-        
-
-export function makeNoteUI(note, notes, noteContainer) {
+export function makeNoteUI(note, noteContainer) {
 
     // create div & give class todo
     let div = document.createElement("div");
@@ -49,8 +34,9 @@ export function makeNoteUI(note, notes, noteContainer) {
 
     //functionalities
     deleteButton.addEventListener("click", ()=> {
-        notes = notes.filter(existingNote => note !== existingNote);
-        showNote(notes);
+        let filteredNotes = allNotes.get().filter(existingNote => note !== existingNote);
+        allNotes.set(filteredNotes);
+        showNote();
     });
 
     //change in title
@@ -73,12 +59,14 @@ export function makeNoteUI(note, notes, noteContainer) {
             note.title = newTitle;
     
             //update notes
+            const notes = allNotes.get();
             const index = notes.findIndex(n => n === note);
-    
+            
             if (index !== -1) {
                 notes[index] = note;
             }
-            console.log("Updated notes array:", notes);
+
+            allNotes.set(notes);
         }
     });
 
@@ -89,13 +77,13 @@ export function makeNoteUI(note, notes, noteContainer) {
 
         note.description = newDescription;
 
-        //update notes
+        const notes = allNotes.get();
         const index = notes.findIndex(n => n === note);
 
         if (index !== -1) {
             notes[index] = note;
+            allNotes.set(notes);
         }
-        console.log("Updated notes array:", notes);
     });
 
 
