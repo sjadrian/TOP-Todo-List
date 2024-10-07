@@ -12,7 +12,7 @@ export function showToday() {
     //clear home
     mainContent.innerHTML = '';
 
-    changeActiveTab(todayButton);
+    // changeActiveTab(todayButton);
 
     let todayToDos = showTodayToDo();
     todayToDos.forEach((todo)=> makeToDoUI(todo));

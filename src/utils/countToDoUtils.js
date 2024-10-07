@@ -31,8 +31,7 @@ function updateTotalHome() {
         homeToDoCount.style.visibility = 'visible';
         homeToDoCount.innerHTML = count;
     }
-
-    console.log('count:', count);
+    // console.log('count:', count);
 }
 
 function updateTotalToday() {

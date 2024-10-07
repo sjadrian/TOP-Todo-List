@@ -1,7 +1,7 @@
 import Project from "../../classes/Project";
 import { showHome } from "../home";
-import { showProject, displayProjectUI } from "../project";
-import { allTodos, allProjects } from "../../data/store";
+import { showProject, displayProjectUI} from "../project";
+// import { allTodos, allProjects } from "../../data/store";
 import {changeActiveTabAdd} from '../changeActiveTab.js';
 
 const addContent = document.getElementById("content-add-right");
@@ -13,6 +13,8 @@ const projectAdd = document.getElementById("project-add");
 const projectTodoAdd = document.getElementById("project-todo-add");
 const noteAdd = document.getElementById("note-add");
 
+import { getAllProjects, updateAllProjects } from "../project";
+
 function closeAddModal() {
     addModal.classList.remove("open");
     mainWindow.classList.remove("blur");
@@ -21,7 +23,7 @@ function closeAddModal() {
 export default function showAddProject() {
     addContent.innerHTML = "";
 
-    changeActiveTabAdd(projectAdd);
+    // changeActiveTabAdd(projectAdd);
 
     // Create the main container div (project-container-add)
     let projectContainerDiv = document.createElement("div");
@@ -60,7 +62,6 @@ export default function showAddProject() {
 
     addContent.appendChild(projectContainerDiv);
 
-
     confirmButton.addEventListener('click', (event)=> {
         event.preventDefault();
 
@@ -71,8 +72,13 @@ export default function showAddProject() {
         // const todo1 = new ToDo("shopping list xx", "1 egg", new Date("2024-09-30"), "low");
         // newProject.addTodo(todo1);
 
+        let allProjects = getAllProjects();
+
+        allProjects.push(newProject);
+        updateAllProjects(allProjects)
+
         //add todo to alltodo
-        allProjects.add(newProject);
+        // allProjects.add(newProject);
 
         // show new todo
         showProject();

@@ -8,6 +8,8 @@ import { allProjects, allTodos } from '../data/store.js';
 import { allButtons } from '../data/store.js';
 import {changeActiveTab} from './changeActiveTab.js';
 
+import Project from '../classes/Project.js';
+
 let projectContainer = document.getElementById("project-container");
 let mainContent = document.getElementById("content-right");
 
@@ -15,7 +17,10 @@ export function showProject() {
 
     projectContainer.innerHTML = '';
 
-    allProjects.get().forEach((project)=> {
+    const localProjects = getAllProjects();
+    // console.log('localproj length', localProjects.length);
+
+    localProjects.forEach((project)=> {
 
         // create div & give class todo
         let div = document.createElement("div");
@@ -27,7 +32,7 @@ export function showProject() {
 
         let divCount = document.createElement("div");
         divCount.classList.add("project-count");
-        divCount.innerHTML = project.length();
+        divCount.innerHTML = project.todos.length;
         divCount.id = project.name;
 
         div.appendChild(divTitle);
@@ -36,14 +41,15 @@ export function showProject() {
         projectContainer.appendChild(div);
 
         //add buttons
-        allButtons.add(divTitle);
+        // allButtons.add(divTitle);
 
         divTitle.addEventListener("click", function() {
             displayProjectUI(project);
-            changeActiveTab(divTitle);
+            // changeActiveTab(divTitle);
             
         } )
     });
+    
     updateTotalProjectCountUI();
 }
 
@@ -51,9 +57,11 @@ export function displayProjectUI(project) {
     //clear home
     mainContent.innerHTML = '';  
 
-    if (project.length() >= 1) {
+    if (project.todos.length >= 1) {
         console.log("yow1");
         // project.todos = sortToDo(project.todos);
+
+        console.log('projectInDisplayProjectUI:', project);
         
         //show all projects
         let todos = project.todos;
@@ -79,17 +87,53 @@ export function displayProjectUI(project) {
         mainContent.appendChild(divCreateDelete);
         mainContent.appendChild(deleteProject);
 
-        deleteProject.addEventListener('click', ()=> {
+        // deleteProject.addEventListener('click', ()=> {
 
-            console.log("delete proj");
+        //     console.log("delete proj");
 
-            allButtons.remove(project.title);
+        //     // allButtons.remove(project.title);
 
-            let filteredProjects = allProjects.get().filter(existingProject => project !== existingProject);
-            allProjects.set(filteredProjects);
+        //     let filteredProjects = getAllProjects().filter(existingProject => project.id !== existingProject.id);
+        //     // allProjects.set(filteredProjects);
 
-            showProject();
-            showHome();
-        })
+        //     updateAllProjects(filteredProjects);
+
+        //     console.log('filt', filteredProjects);
+
+        //     showProject();
+        //     showHome();
+        // })
+
+        deleteProject.addEventListener('click', () => {
+            console.log("Deleting project:", project.name);
+        
+            // Filter out the project to be deleted
+            let filteredProjects = getAllProjects().filter(existingProject => project.id !== existingProject.id);
+            
+            // Update the localStorage and refresh the UI
+            updateAllProjects(filteredProjects);
+            showHome(); 
+            showProject();                       
+                                      
+        });
     }
+}
+
+// export function getAllProjects() {
+//     let localProjectsData = JSON.parse(localStorage.getItem('allProjects'));
+//     const localProject = localProjectsData.map((projectData) => { 
+//         return Project.fromJSON(projectData);
+//     });
+//     return localProject;
+// }
+
+export function getAllProjects() {
+    const localProjectsData = JSON.parse(localStorage.getItem('allProjects') || '[]');  // <--- Added fallback for empty data
+    return localProjectsData.map((projectData) => Project.fromJSON(projectData));
+}
+
+export function updateAllProjects(newProjects) {
+    let newProjectsData = JSON.stringify(newProjects);
+    localStorage.setItem('allProjects', newProjectsData);
+    console.log('Projects after update:', getAllProjects());
 }

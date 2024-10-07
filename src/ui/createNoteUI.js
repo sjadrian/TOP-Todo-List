@@ -19,8 +19,6 @@ export function makeNoteUI(note, noteContainer) {
     divDescription.id = "note-description";
     divDescription.innerHTML = note.description.replace(/\n/g, "<br>");
     divDescription.contentEditable = true;
-    console.log(note.divDescription);
-
 
     // delete button
     let deleteButton = document.createElement("button");

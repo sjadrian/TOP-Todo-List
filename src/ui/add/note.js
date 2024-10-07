@@ -1,13 +1,15 @@
 import Note from "../../classes/Note";
 import {showNote} from '../showNote.js';
 
-import { allNotes } from "../../data/store.js";
+// import { allNotes } from "../../data/store.js";
 
 const addContent = document.getElementById("content-add-right");
 const addModal = document.getElementById("modal-add");
 const mainWindow = document.getElementById("main-content");
 
 import {changeActiveTabAdd} from '../changeActiveTab.js';
+
+import { getAllNotes, updateAllNotes } from "../showNote.js";
 
 const todoAdd = document.getElementById("todo-add");
 const projectAdd = document.getElementById("project-add");
@@ -23,7 +25,7 @@ function closeAddModal() {
 export default function showAddNote() {
     addContent.innerHTML = "";
 
-    changeActiveTabAdd(noteAdd);
+    // changeActiveTabAdd(noteAdd);
 
     // Create the main container div (note-container-add)
     let noteContainerDiv = document.createElement("div");
@@ -80,8 +82,10 @@ export default function showAddNote() {
         //new notes
         let newNote = new Note(title, description);
 
-        //add note to allnotes
-        allNotes.add(newNote);
+        let allNotes = getAllNotes()
+
+        allNotes.push(newNote);
+        updateAllNotes(allNotes);
 
         // show new notes
         showNote();

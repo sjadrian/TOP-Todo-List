@@ -1,25 +1,17 @@
 // /src/index.js
 import "./styles.css";
 
-import { initializeData, allTodos, allProjects, allNotes } from './data/store.js';
-import {closeDetailsModal,  closeEditModal, makeToDoUI} from './ui/todo-UI.js';
+import { initializeData} from './data/store.js';
+import {closeDetailsModal,  closeEditModal} from './ui/todo-UI.js';
 import {showHome} from './ui/home.js';
 import {showToday} from './ui/today.js';
-import { showWeek } from "./ui/week.js";
+import {showWeek} from "./ui/week.js";
 import {showProject} from './ui/project.js';
 import {showNote} from './ui/showNote.js';
 import showAddNote from "./ui/add/note.js";
 import showAddToDo from "./ui/add/todo.js";
 import showAddProject from "./ui/add/project.js";
 import showAddProjectTodo from "./ui/add/project-todo.js";
-
-// import changeActiveTab from "./ui/changeActiveTab.js";
-
-const moment = require("moment");
-
-const low = "low";
-const medium = "medium";
-const high = "high";
 
 let homeButton = document.getElementById("home-button");
 let todayButton = document.getElementById("today-button");
@@ -36,7 +28,6 @@ const addButton = document.getElementById("add-button");
 
 const closeAddButton = document.getElementById("closeModal-add");
 
-
 const todoAdd = document.getElementById("todo-add");
 const projectAdd = document.getElementById("project-add");
 const projectTodoAdd = document.getElementById("project-todo-add");
@@ -47,7 +38,7 @@ initializeData();
 
 // initialize UI
 showHome();
-// showProject();
+showProject();
 // showNote();
 
 closeDetailButton.addEventListener("click", ()=> {
@@ -60,9 +51,6 @@ closeEditButton.addEventListener("click", (event)=> {
 });
 
 homeButton.addEventListener('click', function () {
-    console.log("homeButton called -> logging allTodos");
-    console.log(allTodos);
-
     showHome();
 })
 

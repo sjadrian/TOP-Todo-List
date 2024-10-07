@@ -1,6 +1,6 @@
 import ToDo from "../../classes/ToDo";
 import { showProject, displayProjectUI } from "../project";
-import { allProjects, allTodos } from "../../data/store";
+// import { allProjects, allTodos } from "../../data/store";
 
 const addContent = document.getElementById("content-add-right");
 const addModal = document.getElementById("modal-add");
@@ -13,6 +13,8 @@ const projectAdd = document.getElementById("project-add");
 const projectTodoAdd = document.getElementById("project-todo-add");
 const noteAdd = document.getElementById("note-add");
 
+import { getAllProjects, updateAllProjects } from "../project";
+
 function closeAddModal() {
     addModal.classList.remove("open");
     mainWindow.classList.remove("blur");
@@ -21,7 +23,7 @@ function closeAddModal() {
 export default function showAddProjectTodo() {
     addContent.innerHTML = "";
 
-    changeActiveTabAdd(projectTodoAdd);
+    // changeActiveTabAdd(projectTodoAdd);
 
     // Create the main container div (project-todo-container-add)
     let projectTodoContainerDiv = document.createElement("div");
@@ -37,7 +39,10 @@ export default function showAddProjectTodo() {
     chooseProjectDiv.id = "choose-project-todo-add";
 
 
-    if (allProjects.get().length >= 1) {
+    let allProjects = getAllProjects();
+
+
+    if (allProjects.length >= 1) {
 
         // Create the label for the select dropdown
         let labelElement = document.createElement("label");
@@ -61,10 +66,7 @@ export default function showAddProjectTodo() {
         
         selectElement.appendChild(defaultOption);
 
-        allProjects.get().forEach((project)=> {
-
-            console.log(project.name);
-
+        allProjects.forEach((project)=> {
             let option = document.createElement("option");
             option.value = project.name; 
             option.textContent = project.name;
@@ -185,9 +187,7 @@ export default function showAddProjectTodo() {
 
 
         confirmButton.addEventListener('click', (event)=> {
-
             console.log(selectElement.value);
-
             console.log("confirm todo project");
     
             event.preventDefault();
@@ -213,7 +213,7 @@ export default function showAddProjectTodo() {
     
             //add todo to the project
 
-            let projects = allProjects.get();
+            let projects = getAllProjects();
 
             //find project
             let count = 0;
@@ -226,8 +226,12 @@ export default function showAddProjectTodo() {
                 count++;
             }
 
-            projects[count].addTodo(newTodo);
-            allProjects.set(projects);
+            projects[count].todos.push(newTodo);
+
+            // projects[count].addTodo(newTodo);
+            // allProjects.set(projects);
+
+            updateAllProjects(projects);
 
             showProject();
             displayProjectUI(projects[count]);
@@ -257,7 +261,5 @@ export default function showAddProjectTodo() {
     projectTodoContainerDiv.appendChild(formElement);
 
     // Append the container div to the body (or any specific container)
-    // document.body.appendChild(projectTodoContainerDiv);
-
     addContent.appendChild(projectTodoContainerDiv);
 }

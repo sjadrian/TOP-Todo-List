@@ -1,6 +1,6 @@
 import ToDo from "../../classes/ToDo";
 import { showHome } from "../home";
-import { allTodos } from "../../data/store";
+// import { allTodos } from "../../data/store";
 // import {changeActiveTabAdd} from '../changeActiveTab.js';
 
 const addContent = document.getElementById("content-add-right");
@@ -14,6 +14,8 @@ const projectAdd = document.getElementById("project-add");
 const projectTodoAdd = document.getElementById("project-todo-add");
 const noteAdd = document.getElementById("note-add");
 
+import { getAllTodos, updateAllTodos } from "../home";
+
 function closeAddModal() {
     addModal.classList.remove("open");
     mainWindow.classList.remove("blur");
@@ -24,7 +26,7 @@ function closeAddModal() {
 export default function showAddToDo() {
     addContent.innerHTML = "";
 
-    changeActiveTabAdd(todoAdd);
+    // changeActiveTabAdd(todoAdd);
 
     let divContainer = document.createElement("div");
     divContainer.id = "todo-container-add";
@@ -162,7 +164,12 @@ export default function showAddToDo() {
         const newTodo = new ToDo(title, description, new Date(dueDate), priority);
 
         //add todo to alltodo
-        allTodos.add(newTodo);
+        // allTodos.add(newTodo);
+
+        let allTodos = getAllTodos();
+        allTodos.push(newTodo);
+
+        updateAllTodos(allTodos);
 
         // show new todo
         showHome();

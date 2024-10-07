@@ -4,6 +4,8 @@ import {displayProjectUI} from './project.js';
 
 import { allProjects } from '../data/store.js';
 
+import { getAllProjects, updateAllProjects } from './project.js';
+
 const moment = require("moment");
 
 let homeButton = document.getElementById("home-button");
@@ -112,6 +114,31 @@ export function makeProjectUI(todo, project) {
         showDetailsModalUI();
     });
 
+    deleteIcon.addEventListener('click', ()=> {
+
+        let projects = getAllProjects();
+        let projectIndex = findIndexProject(project);
+        console.log('prjIndex', projectIndex);
+        console.log('todo-id-tobe-deleted', todo.id);
+
+
+        let filteredTodos = projects[projectIndex].todos.filter(existingTodo => {
+            console.log('todo id:');
+            console.log(existingTodo.id);
+            return todo.id !== existingTodo.id;
+        });
+
+        projects[projectIndex].todos = filteredTodos;
+        
+        console.log('filetered', filteredTodos);
+        
+        console.log('projects:', projects);
+
+        updateAllProjects(projects);
+        displayProjectUI(projects[projectIndex]);
+        updateTotalProjectCountUI();
+    });
+
     // works
     editIcon.addEventListener("click", ()=> {
         //put the old info to the modal edit UI and open the UI
@@ -130,22 +157,17 @@ export function makeProjectUI(todo, project) {
             // Update the current todo
             updateToDoInProjectArray(todo, updatedTodo);
 
+            let projIndex = findIndexProject(project);
+
             //update UI
-            displayProjectUI(project);
+            displayProjectUI(getAllProjects()[projIndex]);
             closeEditModal();
         };
+
         // Remove any previous listener before adding the new one
         confirmButton.removeEventListener('click', confirmButton._handler || (() => {}));
         confirmButton._handler = confirmEditHandler; // Store reference to the handler
         confirmButton.addEventListener("click", confirmEditHandler);
-    });
-
-    deleteIcon.addEventListener('click', ()=> {
-        // remove todo from array
-        project.todos = project.todos.filter(existingTodo => todo !== existingTodo);
-        // update UI
-        displayProjectUI(project);
-        updateTotalProjectCountUI();
     });
 
     //functions
@@ -214,34 +236,37 @@ export function makeProjectUI(todo, project) {
 
     function findIndexProject(projectSearched) {
         let count = 0;
-        for (let projectInProjects of allProjects.get()) {
-            if (projectInProjects === projectSearched) {
+        for (let projectInProjects of getAllProjects()) {
+            if (projectInProjects.id === projectSearched.id) {
                 console.log(count);
-                return count; // Return the index as soon as a match is found
+                return count; 
             }
             count++;
         }
-        return -1; // Return -1 if no match is found
+        return -1;
     }
 
     function findIndexToDoInProject(todoNeeded, projectTodos) {
         let count = 0;
         for (let todox of projectTodos) {
-            if (todox === todoNeeded) {
+            if (todox.id === todoNeeded.id) {
                 console.log(count);
-                return count; // Return the index as soon as a match is found
+                return count;
             }
             count++;
         }
-        return -1; // Return -1 if no match is found
+        return -1;
     }
 
     function updateToDoInProjectArray(originalTodo, updatedTodo) {
         const projectIndex = findIndexProject(project);
         const todoIndex = findIndexToDoInProject(originalTodo, project.todos);
 
+        console.log('projectIndex', projectIndex);
+        console.log('todoIndex', todoIndex);
 
-        let projects = allProjects.get();
+
+        let projects = getAllProjects();
 
         if (todoIndex > -1 && projectIndex > -1) {
             // Update only the fields that were modified
@@ -250,33 +275,32 @@ export function makeProjectUI(todo, project) {
             projects[projectIndex].todos[todoIndex].date = updatedTodo.date;
             projects[projectIndex].todos[todoIndex].priority = updatedTodo.priority;
 
-            allProjects.set(projects);
+            updateAllProjects(projects);
         }
     }
 
     function updateProjectUICheckBox(checkBox, todo_, divTitle, div) {
-        // Check if the checkbox is checked or unchecked
-        if (checkBox.checked) {
-            console.log("Checkbox is checked");
-            // Add actions when checkbox is checked
-            todo_.completed = true;
-    
-            //add cross
+        // Determine the checked state and update the UI accordingly
+        const isChecked = checkBox.checked;
+
+        // Apply or remove styling for a completed todo
+        if (isChecked) {
             divTitle.classList.add("todo-cross");
             div.classList.add("todo-background");
-    
-            // updateToDoCountUI();
-            updateTotalProjectCountUI();
         } else {
-            console.log("Checkbox is unchecked");
-            // Add actions when checkbox is unchecked
-            todo_.completed = false;
-    
-            //remove cross
             divTitle.classList.remove("todo-cross");
             div.classList.remove("todo-background");
-    
-            // updateToDoCountUI();
+        }
+
+        // Update the todo item
+        console.log('project.todo', project.todos);
+        const index = findIndexToDoInProject(todo_, project.todos);
+        const projectIndex = findIndexProject(project);
+        const projects = getAllProjects();
+
+        if (index > -1) {
+            projects[projectIndex].todos[index].completed = isChecked;
+            updateAllProjects(projects);
             updateTotalProjectCountUI();
         }
     }

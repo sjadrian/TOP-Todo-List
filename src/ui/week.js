@@ -13,7 +13,7 @@ export function showWeek() {
     //clear home
     mainContent.innerHTML = '';
 
-    changeActiveTab(weekButton);
+    // changeActiveTab(weekButton);
 
     let weekToDos = showThisWeekToDo();
     weekToDos.forEach((todo)=> makeToDoUI(todo));

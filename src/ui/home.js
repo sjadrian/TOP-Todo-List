@@ -1,5 +1,4 @@
 // src/ui/home.js
-import { initializeData, allTodos, allProjects, allNotes } from '../data/store.js';
 import {updateToDosCountUI, sortToDo} from '../utils/countToDoUtils'
 import {makeToDoUI} from './todo-UI';
 
@@ -25,7 +24,6 @@ export function showHome() {
     mainContent.innerHTML = '';
 
     const localToDos = getAllTodos();
-    console.log('localtds', localToDos);
 
     localToDos.forEach((todo)=> makeToDoUI(todo));
     updateToDosCountUI();
@@ -39,19 +37,15 @@ export function showHome() {
 // }
 
 export function getAllTodos() {
-    console.log('todo data:');
     let localTodosData = JSON.parse(localStorage.getItem('allTodos') || '[]'); // Provide a default empty array to avoid errors if 'allTodos' is null
     const localTodos = localTodosData.map((todoData) => {
-        console.log(todoData);
         return ToDo.fromJSON(todoData); // Ensure the result of fromJSON is returned
     });
     return localTodos;
 }
 
 export function updateAllTodos(newTodos) {
-    console.log('updateAllTodos called:');
     console.log(newTodos);
     let newTodosData = JSON.stringify(newTodos);
     localStorage.setItem('allTodos', newTodosData);
-    console.log(getAllTodos());
 }

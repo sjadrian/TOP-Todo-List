@@ -7,21 +7,7 @@ import Note from '../classes/Note.js';
 let _allTodos = [];
 let _allProjects = [];
 let _allNotes = [];
-
-let homeButton = document.getElementById("home-button");
-let todayButton = document.getElementById("today-button");
-let weekButton = document.getElementById("week-button");
-let noteButton = document.getElementById("note-button");
-
 let _allButtons = []
-
-// add buttons
-const todoAdd = document.getElementById("todo-add");
-const projectAdd = document.getElementById("project-add");
-const projectTodoAdd = document.getElementById("project-todo-add");
-const noteAdd = document.getElementById("note-add");
-
-
 let _allAddButtons = [];
 
 // Load data from localStorage if available
@@ -148,7 +134,8 @@ export function initializeData() {
   loadFromLocalStorage();
   console.log('allNotesLength:', _allNotes.length);
   console.log('allTodosLength', _allTodos.length);
-  if (_allNotes.length == 0 || _allTodos.length == 0) {
+  console.log('allProjectLength', _allProjects.length);
+  if (_allNotes.length == 0 || _allTodos.length == 0 || _allProjects == 0) {
     localStorage.clear();
 
     // If no data exists in localStorage, initialize with default data
@@ -164,14 +151,17 @@ export function initializeData() {
     // allTodos.add(todo3);
     // allTodos.add(todo4);
 
-    // // Create projects
-    // const project1 = new Project("Gym");
-    // const project2 = new Project("Cook");
-    // const project3 = new Project("Empty Project");
+    // Create projects
+    const project1 = new Project("Gym");
+    const project2 = new Project("Cook");
+    const project3 = new Project("Empty Project");
 
-    // project1.addTodo(new ToDo("gym", "go-to-gym", new Date("2024-09-30"), "low"));
-    // project1.addTodo(new ToDo("biking", "bike with Sam", new Date("2024-10-02"), "medium"));
-    // project2.addTodo(new ToDo("cook", "cook-chicken", new Date("2024-09-30"), "high"));
+    project1.addTodo(new ToDo("gym", "go-to-gym", new Date("2024-09-30"), "low"));
+    project1.addTodo(new ToDo("biking", "bike with Sam", new Date("2024-10-02"), "medium"));
+    project2.addTodo(new ToDo("cook", "cook-chicken", new Date("2024-09-30"), "high"));
+
+
+    _allProjects.push(project1, project2, project3);
 
     // allProjects.add(project1);
     // allProjects.add(project2);
@@ -230,7 +220,6 @@ export function initializeData() {
 
     // console.log("allNotes:");
     // console.log(allNotes.get());
-  } else {
   }
 }
 
