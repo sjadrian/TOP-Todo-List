@@ -1,10 +1,12 @@
 // src/utils/countToDoUtils.js
 
-import { allTodos } from "../data/store";
+// import { allTodos } from "../data/store";
 
 let homeToDoCount = document.getElementById("home-count");
 let todayToDoCount = document.getElementById("today-count");
 let weekToDoCount = document.getElementById("week-count");
+
+import { getAllTodos, updateAllTodos } from "../ui/home";
 
 export function updateToDosCountUI() {
     updateTotalHome();
@@ -13,8 +15,11 @@ export function updateToDosCountUI() {
 }
 
 function updateTotalHome() {
+
+    // console.log('this called');
+
     let count = 0;
-    allTodos.get().forEach(todo => {
+    getAllTodos().forEach(todo => {
         if (todo.completed == false) {
             count++;
         }
@@ -26,11 +31,13 @@ function updateTotalHome() {
         homeToDoCount.style.visibility = 'visible';
         homeToDoCount.innerHTML = count;
     }
+
+    console.log('count:', count);
 }
 
 function updateTotalToday() {
     let count = 0;
-    let todayArray = showTodayToDo(allTodos.get()); 
+    let todayArray = showTodayToDo(getAllTodos()); 
     todayArray.forEach(todo => {
         if (todo.completed == false) {
             count++;
@@ -46,7 +53,7 @@ function updateTotalToday() {
 
 function updateTotalWeek() {
     let count = 0;
-    let weekArray = showThisWeekToDo(allTodos);
+    let weekArray = showThisWeekToDo();
     weekArray.forEach(todo => {
         if (todo.completed == false) {
             count++;
@@ -71,7 +78,11 @@ export function showTodayToDo() {
     const todayDate = today.getDate();    
 
     // compare each's todo date with today's date
-    allTodos.get().forEach((todo) => {
+    getAllTodos().forEach((todo) => {
+        // console.log(todo);
+        // console.log(todo.date);
+        // console.log(new Date(todo.date.getFullYear()))
+
         const todoYear = todo.date.getFullYear();
         const todoMonth = todo.date.getMonth();
         const todoDate = todo.date.getDate();
@@ -98,7 +109,7 @@ export function showThisWeekToDo() {
     today = new Date(todayYear, todayMonth, todayDate);
     
     // compare each's todo date with today's date
-    allTodos.get().forEach((todo) => {
+    getAllTodos().forEach((todo) => {
         // console.log(todo);
         const timeDifferenceInMs = todo.date - today;
 
@@ -121,7 +132,7 @@ export function showThisWeekToDo() {
 
 export function sortToDo() {
     // Retrieve the todos array using the getter
-    const todos = allTodos.get();
+    const todos = getAllTodos();
 
     // Check if todos is an array
     if (!Array.isArray(todos)) {
@@ -143,5 +154,7 @@ export function sortToDo() {
     });
 
     // Store the sorted todos back into allTodos using the setter
-    allTodos.set(sortedTodos);
+    // allTodos.set(sortedTodos);
+    updateAllTodos(sortedTodos);
+    
 }

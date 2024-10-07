@@ -46,9 +46,9 @@ const noteAdd = document.getElementById("note-add");
 initializeData();
 
 // initialize UI
-// showHome();
+showHome();
 // showProject();
-showNote();
+// showNote();
 
 closeDetailButton.addEventListener("click", ()=> {
     closeDetailsModal();

@@ -147,14 +147,17 @@ export function initializeData() {
   // localStorage.clear();
   loadFromLocalStorage();
   console.log('allNotesLength:', _allNotes.length);
-  if (_allNotes.length == 0) {
+  console.log('allTodosLength', _allTodos.length);
+  if (_allNotes.length == 0 || _allTodos.length == 0) {
     localStorage.clear();
 
     // If no data exists in localStorage, initialize with default data
-    // const todo1 = new ToDo("shopping list 1", "1 egg", new Date("2024-09-30"), "low");
-    // const todo2 = new ToDo("shopping list 2", "description2", new Date("2024-10-07"), "medium");
-    // const todo3 = new ToDo("shopping list 3", "description3", new Date("2024-10-09"), "high");
-    // const todo4 = new ToDo("shopping list 4", "description4", new Date("2024-11-20"), "low");
+    const todo1 = new ToDo("shopping list 1", "1 egg", new Date("2024-09-30"), "low");
+    const todo2 = new ToDo("shopping list 2", "description2", new Date("2024-10-07"), "medium");
+    const todo3 = new ToDo("shopping list 3", "description3", new Date("2024-10-09"), "high");
+    const todo4 = new ToDo("shopping list 4", "description4", new Date("2024-11-20"), "low");
+
+    _allTodos.push(todo1, todo2, todo3, todo4);
 
     // allTodos.add(todo1);
     // allTodos.add(todo2);

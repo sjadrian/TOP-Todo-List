@@ -1,9 +1,10 @@
 // src/ui/todo-UI.js
 
-import { initializeData, allTodos, allProjects, allNotes } from '../data/store.js';
 import {convertTime} from '../utils/dateUtils.js';
 import {showHome} from './home.js';
 import {updateToDosCountUI} from '../utils/countToDoUtils'
+
+import { getAllTodos, updateAllTodos } from './home.js';
 
 const moment = require("moment");
 
@@ -108,6 +109,21 @@ export function makeToDoUI(todo) {
         showDetailsModalUI();
     });
 
+
+    deleteIcon.addEventListener('click', ()=> {
+        // remove todo from array
+
+        let allTodos = getAllTodos();
+        let filteredToDos = allTodos.filter(todoFromallTodos => todo.id !== todoFromallTodos.id);
+
+        updateAllTodos(filteredToDos);
+        // update UI
+
+  
+
+        showHome(); 
+    });
+
     editIcon.addEventListener("click", ()=> {
         //put the old info to the modal edit UI and open the UI
         populateEditForm(todo);
@@ -135,58 +151,99 @@ export function makeToDoUI(todo) {
         confirmButton.addEventListener("click", confirmEditHandler);
     });
 
-    deleteIcon.addEventListener('click', ()=> {
-        // remove todo from array
-        console.log("delete called -> logging allTodos");
-        console.log(allTodos);
-
-        let filteredToDos = allTodos.get().filter(todoFromallTodos => todo !== todoFromallTodos);
-        allTodos.set(filteredToDos);
-        // update UI
-
-        console.log("delete finish -> logging allTodos");
-        console.log(allTodos);
-
-        showHome(); 
-    });
-
     //functions
     function findIndexToDo(todoNeeded) {
         let count = 0;
-        for (let todo of allTodos.get()) {
-            if (todo === todoNeeded) {
-                console.log(count);
-                return count; // Return the index as soon as a match is found
+
+        let allTodos = getAllTodos();
+
+        for (let todo of allTodos) {
+            if (todo.id === todoNeeded.id) {
+                return count;
             }
             count++;
         }
-        return -1; // Return -1 if no match is found
+        return -1; 
     }
     
 
     function updateUICheckBox(checkBox, todo, divTitle, div) {
         // Check if the checkbox is checked or unchecked
-        if (checkBox.checked) {
-            console.log("Checkbox is checked");
-            // Add actions when checkbox is checked
-            todo.completed = true;
+        // if (checkBox.checked) {
+        //     console.log("Checkbox is checked");
+        //     // Add actions when checkbox is checked
+        //     // todo.completed = true;
     
-            //add cross
-            divTitle.classList.add("todo-cross");
-            div.classList.add("todo-background");
+        //     //add cross
+        //     divTitle.classList.add("todo-cross");
+        //     div.classList.add("todo-background");
     
-            updateToDosCountUI();
-        } else {
-            console.log("Checkbox is unchecked");
-            // Add actions when checkbox is unchecked
-            todo.completed = false;
+           
+
+
+        //     //update logic
+        //     const index = findIndexToDo(todo);
+        //     console.log('idx', index);
+
+        //     const todos = getAllTodos();
+
+        //     if (index > -1) {
+        //         // Update the specific todo by index
+        //         todos[index].completed = true;
+        //         console.log('tdx idx completed', todos[index].completed);
+        //         // Set the updated todos array back into allTodos
+        //         updateAllTodos(todos);
+        //         updateToDosCountUI();
+        //     }
+
+        // } else {
+        //     console.log("Checkbox is unchecked");
+        //     // Add actions when checkbox is unchecked
+        //     todo.completed = false;
     
-            //remove cross
-            divTitle.classList.remove("todo-cross");
-            div.classList.remove("todo-background");
-    
-            updateToDosCountUI();
-        }
+        //     //remove cross
+        //     divTitle.classList.remove("todo-cross");
+        //     div.classList.remove("todo-background");
+
+        //     //update logic
+        //     const index = findIndexToDo(todo);
+        //     console.log('idx', index);
+
+        //     const todos = getAllTodos();
+
+        //     if (index > -1) {
+        //         // Update the specific todo by index
+        //         todos[index].completed = false;
+        //         // Set the updated todos array back into allTodos
+        //         updateAllTodos(todos);
+        //         updateToDosCountUI();
+        //     }
+        // }
+
+            // Determine the checked state and update the UI accordingly
+            const isChecked = checkBox.checked;
+
+            // Apply or remove styling for a completed todo
+            if (isChecked) {
+                divTitle.classList.add("todo-cross");
+                div.classList.add("todo-background");
+            } else {
+                divTitle.classList.remove("todo-cross");
+                div.classList.remove("todo-background");
+            }
+
+            // Update the todo item
+            const index = findIndexToDo(todo);
+            const todos = getAllTodos();
+
+            if (index > -1) {
+                // Update the `completed` status and save to `localStorage`
+                todos[index].completed = isChecked;
+                updateAllTodos(todos);
+
+                // Update the ToDo count in the UI
+                updateToDosCountUI();
+            }
     }
 
     function showDetailsModalUI() {
@@ -254,8 +311,9 @@ export function makeToDoUI(todo) {
 
     function updateToDoInArray(originalTodo, updatedTodo) {
         const index = findIndexToDo(originalTodo);
+        console.log('idx', index);
 
-        const todos = allTodos.get();
+        const todos = getAllTodos();
 
         if (index > -1) {
              // Update the specific todo by index
@@ -265,7 +323,9 @@ export function makeToDoUI(todo) {
             todos[index].priority = updatedTodo.priority;
 
             // Set the updated todos array back into allTodos
-            allTodos.set(todos);
+            // allTodos.set(todos);
+
+            updateAllTodos(todos);
         }
     }
 }
