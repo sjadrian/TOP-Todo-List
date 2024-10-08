@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDoList</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script defer src="main.js"></script></head>
+<body>
+
+    <div class="modal" id="modal">
+        <div class="modal-inner">
+            <div id="first-row">
+                <h2 id="modal-title">Cool tutorial!</h2>
+                <button id="closeModal">Close</button>
+            </div>
+            <div>
+                <b>Priority:</b> <span id="modal-priority">High</span> 
+            </div>
+            <div>
+                <b>Due Date:</b> <span id="modal-date">November 3rd, 2021</span> 
+            </div>
+            <div>
+                 <b>Details:</b>  <span id="modal-detail">singlet cos hot</span> 
+            </div> 
+        </div>
+    </div>
+
+    <div class="modal-edit" id="modal-edit">
+        <div class="modal-inner-edit">
+            <form action="" id="edit-form">
+                <div id="first-row-edit">
+                    <input type="text" id="title-edit" name="title" value="get dressed" required maxlength="20">
+                    <button id="closeModal-edit">Close</button>
+                </div>
+                <div>
+                    <textarea id="description-edit" name="description" rows="4" cols="39" placeholder="description:"></textarea>
+                </div> 
+                <div>
+                    <b>Due Date:</b> <input type="date" id="birthday" name="birthday" required>
+                </div>
+                <div id="last-row-edit">
+                    <b>Priority:</b>
+    
+                    <div>
+                        <input type="radio" id="priorityLow" name="priority" value="low"/>
+                        <label for="priorityLow">Low</label>
+    
+                        <input type="radio" id="priorityMed" name="priority" value="medium"/>
+                        <label for="priorityMed">Medium</label>
+    
+                        <input type="radio" id="priorityHigh" name="priority" value="high"/>
+                        <label for="priorityHigh">High</label>
+                    </div>
+    
+                    <button id="confirm-edit">Confirm Edit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-add" id="modal-add">
+        <div class="modal-inner-add">
+            <div id="header-add">
+                <div id="header-title-add">Create a new...</div>
+                <button id="closeModal-add">x</button>
+            </div>
+            <div id="content-add">
+                <div id="content-add-left">
+                    <div id="todo-add">
+                        To Do
+                    </div>
+                    <div id="project-add">
+                        Project
+                    </div>
+                    <div id="project-todo-add">
+                        Project To Do
+                    </div>
+                    <div id="note-add">
+                        Note
+                    </div>
+                </div>
+                <div id="content-add-right">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+    <div id="main-content">
+        <header>
+            <div>
+                // TO-DO 
+            </div>
+        </header>
+        <div id="content">
+            <div id="content-left">
+                <div class="left-text">
+                    <div class="hvr" id="home-button">Home</div>
+                    <div id="home-count">8</div>
+                </div>
+                <div class="left-text">
+                    <div class="hvr" id="today-button">Today</div>
+                    <div id="today-count">3</div>
+                </div>
+                <div class="left-text">
+                    <div class="hvr" id="week-button">Week</div>
+                    <div id="week-count">1</div>
+                </div>
+                <div class="projects">
+                    <div>Projects</div> 
+                    <div id="project-container">
+
+                    </div>
+
+                </div>
+                <div class="left-text">
+                    <div class="hvr" id="note-button">Notes</div>
+                </div>
+                <button id="add-button">+</button>
+            </div>
+
+            <div id="content-right"> 
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
