@@ -1,12 +1,10 @@
 // src/utils/countToDoUtils.js
 
-// import { allTodos } from "../data/store";
-
 let homeToDoCount = document.getElementById("home-count");
 let todayToDoCount = document.getElementById("today-count");
 let weekToDoCount = document.getElementById("week-count");
 
-import { getAllTodos, updateAllTodos } from "../ui/home";
+import { getAllTodos, updateAllTodos } from "../ui/showHome";
 
 export function updateToDosCountUI() {
     updateTotalHome();
@@ -15,9 +13,6 @@ export function updateToDosCountUI() {
 }
 
 function updateTotalHome() {
-
-    // console.log('this called');
-
     let count = 0;
     getAllTodos().forEach(todo => {
         if (todo.completed == false) {
@@ -31,7 +26,6 @@ function updateTotalHome() {
         homeToDoCount.style.visibility = 'visible';
         homeToDoCount.innerHTML = count;
     }
-    // console.log('count:', count);
 }
 
 function updateTotalToday() {
@@ -78,10 +72,6 @@ export function showTodayToDo() {
 
     // compare each's todo date with today's date
     getAllTodos().forEach((todo) => {
-        // console.log(todo);
-        // console.log(todo.date);
-        // console.log(new Date(todo.date.getFullYear()))
-
         const todoYear = todo.date.getFullYear();
         const todoMonth = todo.date.getMonth();
         const todoDate = todo.date.getDate();
@@ -118,15 +108,8 @@ export function showThisWeekToDo() {
             returnArray.push(todo);
         }
     });
-    // return list
     return returnArray;
 }
-
-// export function sortToDo(todos) {
-//     return todos.sort((a, b) => {
-//         return new Date(a.date) - new Date(b.date); // Ascending order
-//     })
-// }
 
 
 export function sortToDo() {
@@ -151,9 +134,5 @@ export function sortToDo() {
 
         return dateA - dateB;
     });
-
-    // Store the sorted todos back into allTodos using the setter
-    // allTodos.set(sortedTodos);
     updateAllTodos(sortedTodos);
-    
 }

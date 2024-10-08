@@ -1,40 +1,22 @@
 // src/ui/home.js
-import {updateToDosCountUI, sortToDo} from '../utils/countToDoUtils'
-import {makeToDoUI} from './todo-UI';
-
+import {updateToDosCountUI, sortToDo} from '../utils/countToDoUtils.js'
+import {makeToDoUI} from './createToDoUI.js';
 import ToDo from '../classes/ToDo.js';
-
-let homeButton = document.getElementById("home-button");
-let todayButton = document.getElementById("today-button");
-let weekButton = document.getElementById("week-button");
-
-import {changeActiveTab} from './changeActiveTab.js';
 
 let mainContent = document.getElementById("content-right");
 
+
 export function showHome() {
-    // console.log("showHome called -> logging allTodos");
-    // console.log(allTodos);
-    
-
-    // console.log(homeButton);
-    // changeActiveTab(homeButton);
-
     //clear home
     mainContent.innerHTML = '';
 
+    sortToDo();
     const localToDos = getAllTodos();
 
     localToDos.forEach((todo)=> makeToDoUI(todo));
     updateToDosCountUI();
 }
 
-
-// export function getAllTodos() {
-//     let localTodosData = JSON.parse(localStorage.getItem('allTodos'));
-//     const localTodos = localTodosData.map(todoData => ToDo.fromJSON(todoData));
-//     return localTodos;
-// }
 
 export function getAllTodos() {
     let localTodosData = JSON.parse(localStorage.getItem('allTodos') || '[]'); // Provide a default empty array to avoid errors if 'allTodos' is null
@@ -43,6 +25,7 @@ export function getAllTodos() {
     });
     return localTodos;
 }
+
 
 export function updateAllTodos(newTodos) {
     console.log(newTodos);

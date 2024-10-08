@@ -1,6 +1,6 @@
 import {showNote} from './showNote.js';
-import { allNotes } from '../data/store.js';   
 import { updateAllNotes, getAllNotes } from './showNote.js';     
+
 
 export function makeNoteUI(note, noteContainer) {
 
@@ -33,13 +33,9 @@ export function makeNoteUI(note, noteContainer) {
 
     //functionalities
     deleteButton.addEventListener("click", ()=> {
-
-        console.log('yox');
-        let allNotex = getAllNotes(); 
-        console.log('allNotex', allNotex);
+        let allNotes = getAllNotes(); 
         
-        let filteredNotes = allNotex.filter(existingNote => existingNote.id !==  note.id);
-        console.log('filtered:',filteredNotes);
+        let filteredNotes = allNotes.filter(existingNote => existingNote.id !==  note.id);
 
         updateAllNotes(filteredNotes);
         showNote();
@@ -60,7 +56,6 @@ export function makeNoteUI(note, noteContainer) {
             setCaretToEnd(divTitle);
         } else {
             const newTitle = event.target.innerHTML;
-            console.log("Content changed: ", newTitle);
     
             note.title = newTitle;
     
@@ -71,7 +66,6 @@ export function makeNoteUI(note, noteContainer) {
             if (index !== -1) {
                 notes[index] = note;
             }
-
             updateAllNotes(notes);
         }
     });
@@ -79,7 +73,6 @@ export function makeNoteUI(note, noteContainer) {
     //change in description
     divDescription.addEventListener('input', function(event) {
         const newDescription = event.target.innerHTML;
-        console.log("Content changed: ", newDescription);
 
         note.description = newDescription;
 
@@ -94,7 +87,6 @@ export function makeNoteUI(note, noteContainer) {
         updateAllNotes(notes);
     }); 
 
-    //functions
     // Helper function to set the caret to the end of the contentEditable div
     function setCaretToEnd(el) {
         const range = document.createRange();

@@ -76,8 +76,6 @@ body {
 }
 
 .modal-inner div {
-    /* padding: 2px; */
-    /* margin: 10px 0; */
     padding: 8px 0px;
 }
 
@@ -183,7 +181,6 @@ body {
     background-color: var(--right-bar);    
     border-radius: 5px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-    /* padding: 15px 25px; */
     text-align: center;
     width: 48rem;
     height: 24rem;
@@ -214,8 +211,7 @@ body {
 }
 
 #closeModal-add {
-    /* height: 60%;
-    width: 2rem; */
+
     padding: 10px;
     margin-right: 10px;
     border: none;
@@ -256,7 +252,6 @@ body {
 }
 
 /* todo */
-
 #todo-container-add {
     height: 100%;
 }
@@ -315,7 +310,6 @@ body {
 /* end of todo-add */
 
 /* project add */
-
 #project-container-add {
     height: 100%;
 }
@@ -372,14 +366,6 @@ body {
     padding-top: 10px;
 }
 
-/* #title-project-todo-add{
-    font-size: 1.2rem;
-    padding-top: 10px;
-    background-color: var(--right-bar);
-    border: none;
-    outline: none;
-} */
-
 #title-project-todo-add {
     padding-top: 10px;
     border: none;
@@ -430,7 +416,6 @@ body {
 
 
 /* note */
-
 #note-container-add {
     height: 100%;
 }
@@ -482,7 +467,6 @@ header {
     color: var(--right-bar);
     font-size: clamp(30px, 4vw, 100px);
     padding: 5px 10px;
-    /* width: 60vw; */
     height: 10%;
     min-width: 400px; 
 
@@ -492,8 +476,6 @@ header {
 
 #content {
     display: flex;
-    /* width: 60vw;
-    height: 40vh; */
     height: 90%;
     min-width: 400px; 
 }
@@ -515,8 +497,6 @@ header {
     justify-content: space-between;
     align-items: center;
 }
-
-
 
 #home-count, #today-count, #week-count, #note-count {
     height: 1em;
@@ -580,8 +560,6 @@ header {
     padding: 10px;
 }
 
-
-
 #add-button {
     margin-top: 10px;
     font-size: 40px;
@@ -636,7 +614,6 @@ header {
 
 .todo-background {
     opacity: 0.65;
-    /* background-color: grey; */
 }
 
 #detail-button {
@@ -665,7 +642,6 @@ header {
 }
 
 /* notes */
-
 #note-container {
     /* Masonry grid */
     display: grid;
@@ -726,9 +702,6 @@ header {
     margin: 10px;
 }
 
-#note-title, #delete-note, #note-description {
-    
-}
 
 
 

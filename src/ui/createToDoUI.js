@@ -1,10 +1,10 @@
 // src/ui/todo-UI.js
 
 import {convertTime} from '../utils/dateUtils.js';
-import {showHome} from './home.js';
-import {updateToDosCountUI} from '../utils/countToDoUtils'
-
-import { getAllTodos, updateAllTodos } from './home.js';
+import {showHome} from './showHome.js';
+import {updateToDosCountUI} from '../utils/countToDoUtils.js'
+import { getAllTodos, updateAllTodos } from './showHome.js';
+import { openDetailsModal, openEditModal, closeEditModal} from './modals.js';
 
 const moment = require("moment");
 
@@ -12,26 +12,10 @@ const low = "low";
 const medium = "medium";
 const high = "high";
 
-const mainWindow = document.getElementById("main-content");
+const mainContent = document.getElementById("content-right");
 
-let mainContent = document.getElementById("content-right");
-
-const detailModal = document.getElementById("modal");
-
-const editModal = document.getElementById("modal-edit");
-
-export function closeDetailsModal() {
-    detailModal.classList.remove("open");
-    mainWindow.classList.remove("blur");
-}
-
-export function closeEditModal() {
-    editModal.classList.remove("open");
-    mainWindow.classList.remove("blur");
-}
 
 export function makeToDoUI(todo) {
-
     // create div & give class todo
     let div = document.createElement("div");
     div.classList.add("todo");
@@ -100,7 +84,6 @@ export function makeToDoUI(todo) {
     }
 
     // give buttons functionalities
-
     checkBox.addEventListener("click", function() {
         updateUICheckBox(checkBox, todo, divTitle, div)
     });
@@ -109,18 +92,12 @@ export function makeToDoUI(todo) {
         showDetailsModalUI();
     });
 
-
     deleteIcon.addEventListener('click', ()=> {
         // remove todo from array
-
         let allTodos = getAllTodos();
         let filteredToDos = allTodos.filter(todoFromallTodos => todo.id !== todoFromallTodos.id);
 
         updateAllTodos(filteredToDos);
-        // update UI
-
-  
-
         showHome(); 
     });
 
@@ -134,7 +111,6 @@ export function makeToDoUI(todo) {
         // remove any existing event listener on the confirm button to avoid duplication
         const confirmEditHandler = (event) => {
             event.preventDefault();
-
 
             const updatedTodo = getUpdatedToDoValues();
 
@@ -168,82 +144,30 @@ export function makeToDoUI(todo) {
     
 
     function updateUICheckBox(checkBox, todo, divTitle, div) {
-        // Check if the checkbox is checked or unchecked
-        // if (checkBox.checked) {
-        //     console.log("Checkbox is checked");
-        //     // Add actions when checkbox is checked
-        //     // todo.completed = true;
-    
-        //     //add cross
-        //     divTitle.classList.add("todo-cross");
-        //     div.classList.add("todo-background");
-    
-           
+        // Determine the checked state and update the UI accordingly
+        const isChecked = checkBox.checked;
 
+        // Apply or remove styling for a completed todo
+        if (isChecked) {
+            divTitle.classList.add("todo-cross");
+            div.classList.add("todo-background");
+        } else {
+            divTitle.classList.remove("todo-cross");
+            div.classList.remove("todo-background");
+        }
 
-        //     //update logic
-        //     const index = findIndexToDo(todo);
-        //     console.log('idx', index);
+        // Update the todo item
+        const index = findIndexToDo(todo);
+        const todos = getAllTodos();
 
-        //     const todos = getAllTodos();
+        if (index > -1) {
+            // Update the `completed` status and save to `localStorage`
+            todos[index].completed = isChecked;
+            updateAllTodos(todos);
 
-        //     if (index > -1) {
-        //         // Update the specific todo by index
-        //         todos[index].completed = true;
-        //         console.log('tdx idx completed', todos[index].completed);
-        //         // Set the updated todos array back into allTodos
-        //         updateAllTodos(todos);
-        //         updateToDosCountUI();
-        //     }
-
-        // } else {
-        //     console.log("Checkbox is unchecked");
-        //     // Add actions when checkbox is unchecked
-        //     todo.completed = false;
-    
-        //     //remove cross
-        //     divTitle.classList.remove("todo-cross");
-        //     div.classList.remove("todo-background");
-
-        //     //update logic
-        //     const index = findIndexToDo(todo);
-        //     console.log('idx', index);
-
-        //     const todos = getAllTodos();
-
-        //     if (index > -1) {
-        //         // Update the specific todo by index
-        //         todos[index].completed = false;
-        //         // Set the updated todos array back into allTodos
-        //         updateAllTodos(todos);
-        //         updateToDosCountUI();
-        //     }
-        // }
-
-            // Determine the checked state and update the UI accordingly
-            const isChecked = checkBox.checked;
-
-            // Apply or remove styling for a completed todo
-            if (isChecked) {
-                divTitle.classList.add("todo-cross");
-                div.classList.add("todo-background");
-            } else {
-                divTitle.classList.remove("todo-cross");
-                div.classList.remove("todo-background");
-            }
-
-            // Update the todo item
-            const index = findIndexToDo(todo);
-            const todos = getAllTodos();
-
-            if (index > -1) {
-                // Update the `completed` status and save to `localStorage`
-                todos[index].completed = isChecked;
-                updateAllTodos(todos);
-
-                // Update the ToDo count in the UI
-                updateToDosCountUI();
-            }
+            // Update the ToDo count in the UI
+            updateToDosCountUI();
+        }
     }
 
     function showDetailsModalUI() {
@@ -256,16 +180,6 @@ export function makeToDoUI(todo) {
         priority.innerHTML = todo.priority;
 
         openDetailsModal()
-    }
-
-    function openDetailsModal() {
-        detailModal.classList.add("open");
-        mainWindow.classList.add("blur");
-    }
-
-    function openEditModal() {
-        editModal.classList.add("open");
-        mainWindow.classList.add("blur");
     }
 
     function populateEditForm(todo) {
@@ -321,9 +235,6 @@ export function makeToDoUI(todo) {
             todos[index].description = updatedTodo.description;
             todos[index].date = updatedTodo.date;
             todos[index].priority = updatedTodo.priority;
-
-            // Set the updated todos array back into allTodos
-            // allTodos.set(todos);
 
             updateAllTodos(todos);
         }

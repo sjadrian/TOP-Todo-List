@@ -1,20 +1,11 @@
 import ToDo from "../../classes/ToDo";
-import { showHome } from "../home";
-// import { allTodos } from "../../data/store";
-// import {changeActiveTabAdd} from '../changeActiveTab.js';
+import { showHome } from "../showHome";
+import { getAllTodos, updateAllTodos } from "../showHome";
 
 const addContent = document.getElementById("content-add-right");
 const addModal = document.getElementById("modal-add");
 const mainWindow = document.getElementById("main-content");
 
-import {changeActiveTabAdd} from '../changeActiveTab.js';
-
-const todoAdd = document.getElementById("todo-add");
-const projectAdd = document.getElementById("project-add");
-const projectTodoAdd = document.getElementById("project-todo-add");
-const noteAdd = document.getElementById("note-add");
-
-import { getAllTodos, updateAllTodos } from "../home";
 
 function closeAddModal() {
     addModal.classList.remove("open");
@@ -22,11 +13,8 @@ function closeAddModal() {
 }
 
 
-
 export default function showAddToDo() {
     addContent.innerHTML = "";
-
-    // changeActiveTabAdd(todoAdd);
 
     let divContainer = document.createElement("div");
     divContainer.id = "todo-container-add";
@@ -66,7 +54,6 @@ export default function showAddToDo() {
     divDueDate.appendChild(dueDateAdd);
 
     //priority and button
-    // Create the main div (last-row-todo-add)
     let lastRowDiv = document.createElement("div");
     lastRowDiv.id = "last-row-todo-add";
 
@@ -141,9 +128,6 @@ export default function showAddToDo() {
     addContent.appendChild(divContainer);
 
     confirmButton.addEventListener('click', (event)=> {
-
-        console.log("confirm todo");
-
         event.preventDefault();
 
         //get data
@@ -162,9 +146,6 @@ export default function showAddToDo() {
 
         //new todo
         const newTodo = new ToDo(title, description, new Date(dueDate), priority);
-
-        //add todo to alltodo
-        // allTodos.add(newTodo);
 
         let allTodos = getAllTodos();
         allTodos.push(newTodo);

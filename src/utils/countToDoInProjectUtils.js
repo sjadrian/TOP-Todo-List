@@ -1,13 +1,10 @@
-import { allProjects } from "../data/store";
-
-import { getAllProjects } from "../ui/project";
+import { getAllProjects } from "../ui/showProject";
 
 export function updateTotalProjectCountUI() {
 
-    const updatedProjects = getAllProjects();  // <--- Ensures the updated data is used here
+    const updatedProjects = getAllProjects();
 
     updatedProjects.forEach((project)=> {
-        // console.log('prj name:', project.name);
         const projectCount = document.getElementById(project.name);
 
         if (projectCount !== null) {

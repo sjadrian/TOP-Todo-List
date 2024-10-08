@@ -1,31 +1,14 @@
-import Note from "../../classes/Note";
+import Note from "../../classes/Note.js";
 import {showNote} from '../showNote.js';
-
-// import { allNotes } from "../../data/store.js";
+import {getAllNotes, updateAllNotes} from "../showNote.js";
 
 const addContent = document.getElementById("content-add-right");
 const addModal = document.getElementById("modal-add");
 const mainWindow = document.getElementById("main-content");
 
-import {changeActiveTabAdd} from '../changeActiveTab.js';
-
-import { getAllNotes, updateAllNotes } from "../showNote.js";
-
-const todoAdd = document.getElementById("todo-add");
-const projectAdd = document.getElementById("project-add");
-const projectTodoAdd = document.getElementById("project-todo-add");
-const noteAdd = document.getElementById("note-add");
-
-
-function closeAddModal() {
-    addModal.classList.remove("open");
-    mainWindow.classList.remove("blur");
-}
 
 export default function showAddNote() {
     addContent.innerHTML = "";
-
-    // changeActiveTabAdd(noteAdd);
 
     // Create the main container div (note-container-add)
     let noteContainerDiv = document.createElement("div");
@@ -73,8 +56,6 @@ export default function showAddNote() {
     confirmButton.addEventListener('click',(event)=> {
         event.preventDefault();
 
-        console.log("confirm clicked");
-
         //get data
         let title = titleInput.value;
         let description = descriptionTextarea.value;
@@ -87,10 +68,8 @@ export default function showAddNote() {
         allNotes.push(newNote);
         updateAllNotes(allNotes);
 
-        // show new notes
+        // update UI
         showNote();
-
-        //close dialog
         closeAddModal();
     });
 }

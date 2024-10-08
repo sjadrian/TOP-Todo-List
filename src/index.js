@@ -2,28 +2,25 @@
 import "./styles.css";
 
 import { initializeData} from './data/store.js';
-import {closeDetailsModal,  closeEditModal} from './ui/todo-UI.js';
-import {showHome} from './ui/home.js';
-import {showToday} from './ui/today.js';
-import {showWeek} from "./ui/week.js";
-import {showProject} from './ui/project.js';
+import {showHome} from './ui/showHome.js';
+import {showToday} from './ui/showToday.js';
+import {showWeek} from "./ui/showWeek.js";
+import {showProject} from './ui/showProject.js';
 import {showNote} from './ui/showNote.js';
-import showAddNote from "./ui/add/note.js";
-import showAddToDo from "./ui/add/todo.js";
-import showAddProject from "./ui/add/project.js";
-import showAddProjectTodo from "./ui/add/project-todo.js";
+import showAddNote from "./ui/add/showAddNote.js";
+import showAddToDo from "./ui/add/showAddToDo.js";
+import showAddProject from "./ui/add/showAddProject.js";
+import showAddProjectTodo from "./ui/add/showAddProjectToDo.js";
 
 let homeButton = document.getElementById("home-button");
 let todayButton = document.getElementById("today-button");
 let weekButton = document.getElementById("week-button");
 let noteButton = document.getElementById("note-button");
 
-const mainWindow = document.getElementById("main-content");
 
 const closeDetailButton = document.getElementById("closeModal");
 const closeEditButton = document.getElementById("closeModal-edit");
 
-const addModal = document.getElementById("modal-add");
 const addButton = document.getElementById("add-button");
 
 const closeAddButton = document.getElementById("closeModal-add");
@@ -33,13 +30,14 @@ const projectAdd = document.getElementById("project-add");
 const projectTodoAdd = document.getElementById("project-todo-add");
 const noteAdd = document.getElementById("note-add");
 
+import { closeDetailsModal, closeEditModal, closeAddModal, openAddModal } from "./ui/modals.js";
+
 // initialize data
 initializeData();
 
 // initialize UI
 showHome();
 showProject();
-// showNote();
 
 closeDetailButton.addEventListener("click", ()=> {
     closeDetailsModal();
@@ -48,6 +46,12 @@ closeDetailButton.addEventListener("click", ()=> {
 closeEditButton.addEventListener("click", (event)=> {
     event.preventDefault();
     closeEditModal();
+});
+
+// add stuff
+closeAddButton.addEventListener('click', (event)=> {
+    event.preventDefault();
+    closeAddModal();
 });
 
 homeButton.addEventListener('click', function () {
@@ -66,45 +70,23 @@ noteButton.addEventListener('click', function() {
     showNote();
 });
 
-
-// add stuff
-closeAddButton.addEventListener('click', (event)=> {
-    event.preventDefault();
-    addModal.classList.remove("open");
-    mainWindow.classList.remove("blur");
-});
-
 addButton.addEventListener('click', function() {
-    showAddModal();
+    openAddModal();
     showAddToDo();
 });
 
-function showAddModal() {
-    addModal.classList.add("open");
-    mainWindow.classList.add("blur");
-}
-
-function closeAddModal() {
-    addModal.classList.remove("open");
-    mainWindow.classList.remove("blur");
-}
-
 todoAdd.addEventListener('click', ()=> {
-    console.log("todo add called");
     showAddToDo();
 });
 
 projectAdd.addEventListener('click', ()=> {
-    console.log("project add called");
     showAddProject();
 })
 
 projectTodoAdd.addEventListener('click', ()=> {
-    console.log("project todo add called");
     showAddProjectTodo(); 
 })
 
 noteAdd.addEventListener('click', ()=> {
-    console.log("note add called");
     showAddNote();
 })

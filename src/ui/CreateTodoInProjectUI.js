@@ -1,41 +1,18 @@
 import {convertTime} from '../utils/dateUtils.js';
 import {updateTotalProjectCountUI} from '../utils/countToDoInProjectUtils.js';
-import {displayProjectUI} from './project.js';
+import {displayProjectUI} from './showProject.js';
+import { getAllProjects, updateAllProjects } from './showProject.js';
+import { openDetailsModal, openEditModal, closeEditModal} from './modals.js';
 
-import { allProjects } from '../data/store.js';
-
-import { getAllProjects, updateAllProjects } from './project.js';
 
 const moment = require("moment");
 
-let homeButton = document.getElementById("home-button");
-let todayButton = document.getElementById("today-button");
-let weekButton = document.getElementById("week-button");
-
-const mainWindow = document.getElementById("main-content");
-
-let mainContent = document.getElementById("content-right");
-let projectContainer = document.getElementById("project-container");
-
-let homeToDoCount = document.getElementById("home-count");
-let todayToDoCount = document.getElementById("today-count");
-let weekToDoCount = document.getElementById("week-count");
-
-const closeDetailButton = document.getElementById("closeModal");
-const detailModal = document.getElementById("modal");
-
-const editModal = document.getElementById("modal-edit");
-const closeEditButton = document.getElementById("closeModal-edit");
+const mainContent = document.getElementById("content-right");
 
 const low = "low";
 const medium = "medium";
 const high = "high";
 
-
-function closeEditModal() {
-    editModal.classList.remove("open");
-    mainWindow.classList.remove("blur");
-}
 
 export function makeProjectUI(todo, project) {
     // create div & give class todo
@@ -115,24 +92,14 @@ export function makeProjectUI(todo, project) {
     });
 
     deleteIcon.addEventListener('click', ()=> {
-
         let projects = getAllProjects();
         let projectIndex = findIndexProject(project);
-        console.log('prjIndex', projectIndex);
-        console.log('todo-id-tobe-deleted', todo.id);
-
 
         let filteredTodos = projects[projectIndex].todos.filter(existingTodo => {
-            console.log('todo id:');
-            console.log(existingTodo.id);
             return todo.id !== existingTodo.id;
         });
 
         projects[projectIndex].todos = filteredTodos;
-        
-        console.log('filetered', filteredTodos);
-        
-        console.log('projects:', projects);
 
         updateAllProjects(projects);
         displayProjectUI(projects[projectIndex]);
@@ -182,16 +149,7 @@ export function makeProjectUI(todo, project) {
 
         openDetailsModal()
     }
-
-    function openDetailsModal() {
-        detailModal.classList.add("open");
-        mainWindow.classList.add("blur");
-    }
-
-    function openEditModal() {
-        editModal.classList.add("open");
-        mainWindow.classList.add("blur");
-    }
+    
 
     function populateEditForm(todoPopulate) {
         // get form elements
@@ -238,7 +196,6 @@ export function makeProjectUI(todo, project) {
         let count = 0;
         for (let projectInProjects of getAllProjects()) {
             if (projectInProjects.id === projectSearched.id) {
-                console.log(count);
                 return count; 
             }
             count++;
@@ -250,7 +207,6 @@ export function makeProjectUI(todo, project) {
         let count = 0;
         for (let todox of projectTodos) {
             if (todox.id === todoNeeded.id) {
-                console.log(count);
                 return count;
             }
             count++;
@@ -261,9 +217,6 @@ export function makeProjectUI(todo, project) {
     function updateToDoInProjectArray(originalTodo, updatedTodo) {
         const projectIndex = findIndexProject(project);
         const todoIndex = findIndexToDoInProject(originalTodo, project.todos);
-
-        console.log('projectIndex', projectIndex);
-        console.log('todoIndex', todoIndex);
 
 
         let projects = getAllProjects();
@@ -293,7 +246,6 @@ export function makeProjectUI(todo, project) {
         }
 
         // Update the todo item
-        console.log('project.todo', project.todos);
         const index = findIndexToDoInProject(todo_, project.todos);
         const projectIndex = findIndexProject(project);
         const projects = getAllProjects();

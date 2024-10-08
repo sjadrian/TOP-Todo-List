@@ -1,19 +1,10 @@
 import ToDo from "../../classes/ToDo";
-import { showProject, displayProjectUI } from "../project";
-// import { allProjects, allTodos } from "../../data/store";
+import { showProject, displayProjectUI } from "../showProject";
+import { getAllProjects, updateAllProjects } from "../showProject";
 
 const addContent = document.getElementById("content-add-right");
 const addModal = document.getElementById("modal-add");
 const mainWindow = document.getElementById("main-content");
-
-import {changeActiveTabAdd} from '../changeActiveTab.js';
-
-const todoAdd = document.getElementById("todo-add");
-const projectAdd = document.getElementById("project-add");
-const projectTodoAdd = document.getElementById("project-todo-add");
-const noteAdd = document.getElementById("note-add");
-
-import { getAllProjects, updateAllProjects } from "../project";
 
 function closeAddModal() {
     addModal.classList.remove("open");
@@ -22,8 +13,6 @@ function closeAddModal() {
 
 export default function showAddProjectTodo() {
     addContent.innerHTML = "";
-
-    // changeActiveTabAdd(projectTodoAdd);
 
     // Create the main container div (project-todo-container-add)
     let projectTodoContainerDiv = document.createElement("div");
@@ -49,7 +38,6 @@ export default function showAddProjectTodo() {
         labelElement.setAttribute("for", "exams");
         labelElement.id = "label-project-todo-add";
         labelElement.innerHTML = "<b>Select Project:</b>";
-
         
         // Create the select dropdown (exams) with options
         let selectElement = document.createElement("select");
@@ -227,10 +215,6 @@ export default function showAddProjectTodo() {
             }
 
             projects[count].todos.push(newTodo);
-
-            // projects[count].addTodo(newTodo);
-            // allProjects.set(projects);
-
             updateAllProjects(projects);
 
             showProject();

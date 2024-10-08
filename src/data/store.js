@@ -25,12 +25,6 @@ function loadFromLocalStorage() {
   _allAddButtons = addButtons ? JSON.parse(addButtons) : [];
 }
 
-// export function loadAllButtons() {
-//   const buttons = localStorage.getItem('allButtons');
-//   _allButtons = buttons ? JSON.parse(buttons) : [];
-//   return _allButtons;
-// }
-
 // Save data to localStorage
 function saveToLocalStorage() {
   localStorage.setItem('allTodos', JSON.stringify(_allTodos));
@@ -40,94 +34,6 @@ function saveToLocalStorage() {
   localStorage.setItem('allAddButtons', JSON.stringify(_allAddButtons));
 }
 
-export const allAddButtons = {
-  get() {
-    return _allAddButtons;
-  },
-  set(newAddButtons) {
-    _allAddButtons = newAddButtons;
-    saveToLocalStorage();
-  },
-  add(button) {
-    _allAddButtons.push(button);
-    saveToLocalStorage();
-  },
-  remove(buttonToRemove) {
-    _allAddButtons = _allAddButtons.filter(button => button !== buttonToRemove);
-    saveToLocalStorage();
-  }
-};
-
-
-
-export const allButtons = {
-  get() {
-    return _allButtons;
-  },
-  set(newButtons) {
-    _allButtons = newButtons;
-    saveToLocalStorage();
-  },
-  add(button) {
-    _allButtons.push(button);
-    saveToLocalStorage();
-  },
-  remove(buttonToRemove) {
-    _allButtons = _allButtons.filter(button => button !== buttonToRemove);
-    saveToLocalStorage();
-  }
-};
-
-// Getter and Setter for allTodos
-export const allTodos = {
-  get() {
-    return _allTodos;
-  },
-  set(newTodos) {
-    _allTodos = newTodos;
-    saveToLocalStorage();
-  },
-  add(todo) {
-    _allTodos.push(todo);
-    saveToLocalStorage();
-  },
-  remove(todoToRemove) {
-    _allTodos = _allTodos.filter(todo => todo !== todoToRemove);
-    saveToLocalStorage();
-  }
-};
-
-// Getter and Setter for allProjects
-export const allProjects = {
-  get() {
-    return _allProjects;
-    saveToLocalStorage();
-  },
-  set(newProjects) {
-    _allProjects = newProjects;
-    saveToLocalStorage();
-  },
-  add(project) {
-    _allProjects.push(project);
-    saveToLocalStorage();
-  }
-};
-
-// Getter and Setter for allNotes
-export const allNotes = {
-  get() {
-    return _allNotes;
-  },
-  set(newNotes) {
-    _allNotes = newNotes;
-    saveToLocalStorage();
-  },
-  add(note) {
-    _allNotes.unshift(note);
-    saveToLocalStorage();
-  }
-};
-
 // Initialize data
 export function initializeData() {
   // localStorage.clear();
@@ -135,21 +41,18 @@ export function initializeData() {
   console.log('allNotesLength:', _allNotes.length);
   console.log('allTodosLength', _allTodos.length);
   console.log('allProjectLength', _allProjects.length);
+
+  // If no data exists in localStorage, initialize with default data
   if (_allNotes.length == 0 || _allTodos.length == 0 || _allProjects == 0) {
     localStorage.clear();
 
-    // If no data exists in localStorage, initialize with default data
+    // Create Todos
     const todo1 = new ToDo("shopping list 1", "1 egg", new Date("2024-09-30"), "low");
     const todo2 = new ToDo("shopping list 2", "description2", new Date("2024-10-07"), "medium");
     const todo3 = new ToDo("shopping list 3", "description3", new Date("2024-10-09"), "high");
     const todo4 = new ToDo("shopping list 4", "description4", new Date("2024-11-20"), "low");
 
     _allTodos.push(todo1, todo2, todo3, todo4);
-
-    // allTodos.add(todo1);
-    // allTodos.add(todo2);
-    // allTodos.add(todo3);
-    // allTodos.add(todo4);
 
     // Create projects
     const project1 = new Project("Gym");
@@ -163,10 +66,6 @@ export function initializeData() {
 
     _allProjects.push(project1, project2, project3);
 
-    // allProjects.add(project1);
-    // allProjects.add(project2);
-    // allProjects.add(project3);
-
     // // Create notes
     const note1 = new Note("title", "you can edit title and details in place.");
     const note2 = new Note("books", "go get some books");
@@ -174,52 +73,10 @@ export function initializeData() {
     const note5 = new Note("example note", "example\nnote\nwith\nlots\nof\nlines");
     const note8 = new Note("books", "go get some more books");
 
-    // allNotes.add(note1);
-    // allNotes.add(note2);
-    // allNotes.add(note3);
-    // allNotes.add(note5);
-    // allNotes.add(note8);
-
-    // allButtons.add(homeButton);
-    // allButtons.add(todayButton);
-    // allButtons.add(weekButton);
-    // allButtons.add(noteButton);
-
-    // allAddButtons.add(todoAdd);
-    // allAddButtons.add(projectAdd);
-    // allAddButtons.add(projectTodoAdd);
-    // allAddButtons.add(noteAdd);
-
     _allNotes.push(note1, note2, note3, note5, note8);
 
-    // let xxx = [];
-    // xxx.push(note1);
-    // xxx.push(note2);
-    // console.log('xxx:', xxx);
-
-    // let xxxItem = JSON.stringify(xxx)
-    // console.log('xxxItem:', xxxItem);
-    // localStorage.setItem('allNotes', xxxItem);
-
-    // let xxxFromStorage = JSON.parse(localStorage.getItem('allNotes'));
-    // console.log('xxxFromStorage:', xxxFromStorage);
-    
-
-    // console.log('_allNotes:' + _allNotes);
-
-    saveToLocalStorage(); // Save initial data to localStorage
-
-
-    //get note from local storage
-    // let xNotesData = JSON.parse(localStorage.getItem("allNotes"));
-
-    // // Map over each item and create a new Note instance
-    // const xNotes = xNotesData.map(noteData => new Note(noteData._title, noteData._description));
-    // console.log("xNotes:");
-    // console.log(xNotes);
-
-    // console.log("allNotes:");
-    // console.log(allNotes.get());
+    // Save initial data to localStorage 
+    saveToLocalStorage(); 
   }
 }
 

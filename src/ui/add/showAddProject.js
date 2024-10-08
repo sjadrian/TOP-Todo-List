@@ -1,19 +1,11 @@
 import Project from "../../classes/Project";
-import { showHome } from "../home";
-import { showProject, displayProjectUI} from "../project";
-// import { allTodos, allProjects } from "../../data/store";
-import {changeActiveTabAdd} from '../changeActiveTab.js';
+import { showProject, displayProjectUI} from "../showProject";
+import { getAllProjects, updateAllProjects } from "../showProject";
 
 const addContent = document.getElementById("content-add-right");
 const addModal = document.getElementById("modal-add");
 const mainWindow = document.getElementById("main-content");
 
-const todoAdd = document.getElementById("todo-add");
-const projectAdd = document.getElementById("project-add");
-const projectTodoAdd = document.getElementById("project-todo-add");
-const noteAdd = document.getElementById("note-add");
-
-import { getAllProjects, updateAllProjects } from "../project";
 
 function closeAddModal() {
     addModal.classList.remove("open");
@@ -22,8 +14,6 @@ function closeAddModal() {
 
 export default function showAddProject() {
     addContent.innerHTML = "";
-
-    // changeActiveTabAdd(projectAdd);
 
     // Create the main container div (project-container-add)
     let projectContainerDiv = document.createElement("div");
@@ -69,16 +59,11 @@ export default function showAddProject() {
 
         //new todo
         const newProject = new Project(title);
-        // const todo1 = new ToDo("shopping list xx", "1 egg", new Date("2024-09-30"), "low");
-        // newProject.addTodo(todo1);
 
         let allProjects = getAllProjects();
 
         allProjects.push(newProject);
         updateAllProjects(allProjects)
-
-        //add todo to alltodo
-        // allProjects.add(newProject);
 
         // show new todo
         showProject();

@@ -1,24 +1,15 @@
-import {makeProjectUI} from './todo-project-UI.js';
+import {makeProjectUI} from './CreateTodoInProjectUI.js';
 import {updateTotalProjectCountUI} from '../utils/countToDoInProjectUtils.js';
-import { sortToDo } from '../utils/countToDoUtils.js';
-import { showHome } from './home.js';
-
-import { allProjects, allTodos } from '../data/store.js';
-
-import { allButtons } from '../data/store.js';
-import {changeActiveTab} from './changeActiveTab.js';
-
+import { showHome } from './showHome.js';
 import Project from '../classes/Project.js';
 
 let projectContainer = document.getElementById("project-container");
 let mainContent = document.getElementById("content-right");
 
 export function showProject() {
-
     projectContainer.innerHTML = '';
 
     const localProjects = getAllProjects();
-    // console.log('localproj length', localProjects.length);
 
     localProjects.forEach((project)=> {
 
@@ -40,16 +31,10 @@ export function showProject() {
         
         projectContainer.appendChild(div);
 
-        //add buttons
-        // allButtons.add(divTitle);
-
         divTitle.addEventListener("click", function() {
-            displayProjectUI(project);
-            // changeActiveTab(divTitle);
-            
+            displayProjectUI(project);            
         } )
     });
-    
     updateTotalProjectCountUI();
 }
 
@@ -58,18 +43,10 @@ export function displayProjectUI(project) {
     mainContent.innerHTML = '';  
 
     if (project.todos.length >= 1) {
-        console.log("yow1");
-        // project.todos = sortToDo(project.todos);
-
-        console.log('projectInDisplayProjectUI:', project);
-        
         //show all projects
         let todos = project.todos;
         todos.forEach((todo)=> makeProjectUI(todo, project));
     } else {
-
-        console.log("yow2");
-
         //create div 
         let divEmpty = document.createElement("div");
         divEmpty.innerHTML = "Empty Project!"
@@ -87,23 +64,6 @@ export function displayProjectUI(project) {
         mainContent.appendChild(divCreateDelete);
         mainContent.appendChild(deleteProject);
 
-        // deleteProject.addEventListener('click', ()=> {
-
-        //     console.log("delete proj");
-
-        //     // allButtons.remove(project.title);
-
-        //     let filteredProjects = getAllProjects().filter(existingProject => project.id !== existingProject.id);
-        //     // allProjects.set(filteredProjects);
-
-        //     updateAllProjects(filteredProjects);
-
-        //     console.log('filt', filteredProjects);
-
-        //     showProject();
-        //     showHome();
-        // })
-
         deleteProject.addEventListener('click', () => {
             console.log("Deleting project:", project.name);
         
@@ -118,14 +78,6 @@ export function displayProjectUI(project) {
         });
     }
 }
-
-// export function getAllProjects() {
-//     let localProjectsData = JSON.parse(localStorage.getItem('allProjects'));
-//     const localProject = localProjectsData.map((projectData) => { 
-//         return Project.fromJSON(projectData);
-//     });
-//     return localProject;
-// }
 
 export function getAllProjects() {
     const localProjectsData = JSON.parse(localStorage.getItem('allProjects') || '[]');  // <--- Added fallback for empty data
